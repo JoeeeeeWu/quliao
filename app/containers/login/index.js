@@ -3,13 +3,11 @@ import {
   Button,
   Form,
   Grid,
-  Header,
-  Image,
-  Input,
-  Message,
   Segment,
   Tab,
 } from "semantic-ui-react";
+
+import socketEmit from "../../sockets";
 import styles from "./login.less";
 
 class Login extends Component {
@@ -22,6 +20,24 @@ class Login extends Component {
   }
 
   handleChange= (e, { name, value }) => this.setState({ [name]: value })
+
+  handleSignin= () => {
+    const {
+      siginName,
+      signinPwd,
+    } = this.state;
+    socketEmit("login", {
+      siginName,
+      signinPwd,
+    });
+  }
+
+  handleSingup= () => {
+    const {
+      signupName,
+      signupPwd,
+    } = this.state;
+  }
 
   render() {
     const {
@@ -52,7 +68,12 @@ class Login extends Component {
             value={signinPwd}
             onChange={this.handleChange}
           />
-          <Button color="teal" fluid size="large">登录</Button>
+          <Button
+            color="teal"
+            fluid
+            size="large"
+            onClick={this.handleSignin}
+          >登录</Button>
         </Segment>
       </Form>
     );
@@ -78,7 +99,12 @@ class Login extends Component {
             value={signupPwd}
             onChange={this.handleChange}
           />
-          <Button color="teal" fluid size="large">注册</Button>
+          <Button
+            color="teal"
+            fluid
+            size="large"
+            onClick={this.handleSingup}
+          >注册</Button>
         </Segment>
       </Form>
     );
