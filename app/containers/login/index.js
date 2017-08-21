@@ -13,36 +13,48 @@ import styles from "./login.less";
 class Login extends Component {
 
   state={
-    siginName: "",
-    signinPwd: "",
+    loginEmail: "",
+    loginPwd: "",
+    signupEmail: "",
     signupName: "",
     signupPwd: "",
   }
 
-  handleChange= (e, { name, value }) => this.setState({ [name]: value })
+  handleChange= (e, { name, value }) => this.setState({
+    [name]: value,
+  })
 
-  handleSignin= () => {
+  handleLogin= async () => {
     const {
-      siginName,
-      signinPwd,
+      loginEmail,
+      loginPwd,
     } = this.state;
-    socketEmit("login", {
-      siginName,
-      signinPwd,
+    const res = await socketEmit("login", {
+      loginEmail,
+      loginPwd,
     });
+    console.log(res);
   }
 
-  handleSingup= () => {
+  handleSignup= async () => {
     const {
+      signupEmail,
       signupName,
       signupPwd,
     } = this.state;
+    const res = await socketEmit("signup", {
+      signupEmail,
+      signupName,
+      signupPwd,
+    });
+    console.log(res);
   }
 
   render() {
     const {
-      siginName,
-      signinPwd,
+      loginEmail,
+      loginPwd,
+      signupEmail,
       signupName,
       signupPwd,
     } = this.state;
@@ -51,11 +63,11 @@ class Login extends Component {
         <Segment stacked>
           <Form.Input
             fluid
-            icon="user"
+            icon="mail"
             iconPosition="left"
             placeholder="邮箱"
-            name="siginName"
-            value={siginName}
+            name="loginEmail"
+            value={loginEmail}
             onChange={this.handleChange}
           />
           <Form.Input
@@ -64,27 +76,36 @@ class Login extends Component {
             iconPosition="left"
             placeholder="密码"
             type="password"
-            name="signinPwd"
-            value={signinPwd}
+            name="loginPwd"
+            value={loginPwd}
             onChange={this.handleChange}
           />
           <Button
             color="teal"
             fluid
             size="large"
-            onClick={this.handleSignin}
+            onClick={this.handleLogin}
           >登录</Button>
         </Segment>
       </Form>
     );
-    const logupCont = (
+    const signupCont = (
       <Form size="large">
         <Segment stacked>
           <Form.Input
             fluid
-            icon="user"
+            icon="mail"
             iconPosition="left"
             placeholder="邮箱"
+            name="signupEmail"
+            value={signupEmail}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            fluid
+            icon="user"
+            iconPosition="left"
+            placeholder="昵称"
             name="signupName"
             value={signupName}
             onChange={this.handleChange}
@@ -103,14 +124,14 @@ class Login extends Component {
             color="teal"
             fluid
             size="large"
-            onClick={this.handleSingup}
+            onClick={this.handleSignup}
           >注册</Button>
         </Segment>
       </Form>
     );
     const panes = [
       { menuItem: "登录", render: () => loginCont },
-      { menuItem: "注册", render: () => logupCont },
+      { menuItem: "注册", render: () => signupCont },
     ];
     return (
       <Grid
