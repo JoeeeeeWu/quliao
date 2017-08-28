@@ -1,11 +1,7 @@
-import socket from "../io";
+import userSocket from "./user";
 
-const socketEmit = (event, arg) => {
-  return new Promise((resolve, reject) => {
-    socket.emit(event, arg, res => {
-      resolve(res);
-    });
-  });
-};
+function listenSocket(socket) {
+  userSocket(socket);
+}
 
-export default socketEmit;
+export default listenSocket;

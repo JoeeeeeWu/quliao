@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-  BrowserRouter as Router,
+  Router,
   Route,
 } from "react-router-dom";
 import history from "./history";
@@ -9,10 +9,10 @@ import Bundle from "./bundle";
 import Login from "bundle-loader?lazy&name=login!../containers/login";
 import Chat from "bundle-loader?lazy&name=login!../containers/chat";
 
-const createComponent = (component) =>({ history }) => (
+const createComponent = component => () => (
   <Bundle load={component}>
     {
-      (Comp) => <Comp history={history} />
+      Comp => <Comp />
     }
   </Bundle>
 );

@@ -7,8 +7,14 @@ import {
   Tab,
 } from "semantic-ui-react";
 
-import socketEmit from "../../sockets";
+import axios from "axios";
 import styles from "./login.less";
+import socket from "../../io";
+import socketEmit from "../../sockets/socket_emit";
+
+import history from "../../routes/history";
+
+import { apiBaseUrl } from "../../config";
 
 class Login extends Component {
 
@@ -25,15 +31,27 @@ class Login extends Component {
   })
 
   handleLogin= async () => {
+    localStorage.setItem("token", "hahaha");
     const {
       loginEmail,
       loginPwd,
     } = this.state;
-    const res = await socketEmit("login", {
-      loginEmail,
-      loginPwd,
-    });
-    console.log(res);
+    axios
+      .post(`${apiBaseUrl}/login`, {
+        loginEmail,
+        loginPwd,
+      })
+      .then(res => {
+        const {
+          status,
+          token,
+        } = res.data;
+        if (status === 0) {
+          localStorage.setItem("token", token);
+          history.push("/");
+        }
+      })
+      .catch(error => console.log(error));
   }
 
   handleSignup= async () => {
@@ -42,12 +60,16 @@ class Login extends Component {
       signupName,
       signupPwd,
     } = this.state;
-    const res = await socketEmit("signup", {
-      signupEmail,
-      signupName,
-      signupPwd,
-    });
-    console.log(res);
+    axios
+      .post(`${apiBaseUrl}/signup`, {
+        signupEmail,
+        signupName,
+        signupPwd,
+      })
+      .then(res => {
+
+      })
+      .catch(error => console.log(error));
   }
 
   render() {
