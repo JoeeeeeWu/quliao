@@ -9,11 +9,8 @@ import {
 
 import axios from "axios";
 import styles from "./login.less";
-import socket from "../../io";
-import socketEmit from "../../sockets/socket_emit";
-
+import socketEmit from "../../sockets/socket-emit";
 import history from "../../routes/history";
-
 import { apiBaseUrl } from "../../config";
 
 class Login extends Component {
@@ -31,7 +28,7 @@ class Login extends Component {
   })
 
   handleLogin= async () => {
-    localStorage.setItem("token", "hahaha");
+    socketEmit("test", { token: localStorage.getItem("token") });
     const {
       loginEmail,
       loginPwd,

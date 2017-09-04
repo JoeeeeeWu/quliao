@@ -6,8 +6,8 @@ import {
 import history from "./history";
 import Bundle from "./bundle";
 
-import Login from "bundle-loader?lazy&name=login!../containers/login";
-import Chat from "bundle-loader?lazy&name=login!../containers/chat";
+import Login from "bundle-loader?lazy&name=login!../containers/Login";
+import Chat from "bundle-loader?lazy&name=login!../containers/Chat";
 
 const createComponent = component => () => (
   <Bundle load={component}>

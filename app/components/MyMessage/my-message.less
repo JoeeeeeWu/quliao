@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  :global {
+    .ui.header {
+      margin-bottom: 0.5em;
+    }
+  }
+}
+
+.avatar {
+  flex: auto 0 0;
+}
+
+.detail {
+  flex: auto 1 1;
+  margin-right: 1em;
+}
+
+:global(.ui.stacked){
+  &.content {
+    padding: 0.8em;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
