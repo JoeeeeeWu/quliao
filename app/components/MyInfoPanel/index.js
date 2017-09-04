@@ -41,18 +41,14 @@ class MyInfoPanel extends Component {
             <Segment>
               <Header as="h4">
                 创建时间
-                <Header.Subheader>
-                  {moment(user.getIn(["meta", "createAt"])).format("YYYY-MM-DD HH:mm:ss")}
-                </Header.Subheader>
               </Header>
+              <p>{moment(user.getIn(["meta", "createAt"])).format("YYYY-MM-DD HH:mm:ss")}</p>
             </Segment>
             <Segment>
               <Header as="h4">
                 我的签名
-                <Header.Subheader>
-                  无论走过多少荒芜，我都不会迷路！
-                </Header.Subheader>
               </Header>
+              <p>无论走过多少荒芜，我都不会迷路！</p>
             </Segment>
             <Segment>
               <Button content="修改个人信息" icon="write" color="teal" labelPosition="left" />

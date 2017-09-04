@@ -41,26 +41,20 @@ class RoomMsgPanel extends Component {
             <Segment>
               <Header as="h4">
                 群主
-                <Header.Subheader>
-                  {currentRoom.getIn(["owner", "name"]) || "暂无群主"}
-                </Header.Subheader>
               </Header>
+              <p>{currentRoom.getIn(["owner", "name"]) || "暂无群主"}</p>
             </Segment>
             <Segment>
               <Header as="h4">
                 创建时间
-                <Header.Subheader>
-                  {moment(currentRoom.getIn(["meta", "createAt"])).format("YYYY-MM-DD HH:mm:ss")}
-                </Header.Subheader>
               </Header>
+              <p>{moment(currentRoom.getIn(["meta", "createAt"])).format("YYYY-MM-DD HH:mm:ss")}</p>
             </Segment>
             <Segment>
               <Header as="h4">
                 群公告
-                <Header.Subheader>
-                  暂无公告
-                </Header.Subheader>
               </Header>
+              <p>暂无公告</p>
             </Segment>
             <Segment>
               <Button content="修改聊天室信息" icon="write" color="teal" labelPosition="left" />
