@@ -10,6 +10,7 @@ import {
 import moment from "moment";
 import {
   toggleCurrentRoomMsg,
+  toggleRoomMsgForm,
 } from "../../action-creators/layout";
 
 import styles from "./room-msg-panel.less";
@@ -19,6 +20,7 @@ class RoomMsgPanel extends Component {
     const {
       currentRoom,
       toggleCurrentRoomMsg,
+      toggleRoomMsgForm,
     } = this.props;
     return (
       <Segment basic className={styles.container}>
@@ -42,7 +44,10 @@ class RoomMsgPanel extends Component {
               <Header as="h4">
                 群主
               </Header>
-              <p>{currentRoom.getIn(["owner", "name"]) || "暂无群主"}</p>
+              <div>
+                <Image src={currentRoom.getIn(["owner", "avatar"])} avatar />
+                <span>{currentRoom.getIn(["owner", "name"])}</span>
+              </div>
             </Segment>
             <Segment>
               <Header as="h4">
@@ -52,12 +57,18 @@ class RoomMsgPanel extends Component {
             </Segment>
             <Segment>
               <Header as="h4">
-                群公告
+                聊天室简介
               </Header>
-              <p>暂无公告</p>
+              <p>{currentRoom.get("desc")}</p>
             </Segment>
             <Segment>
-              <Button content="修改聊天室信息" icon="write" color="teal" labelPosition="left" />
+              <Header as="h4">
+                聊天室公告
+              </Header>
+              <p>{currentRoom.get("declare")}</p>
+            </Segment>
+            <Segment>
+              <Button content="修改聊天室信息" icon="write" color="teal" labelPosition="left" onClick={toggleRoomMsgForm} />
             </Segment>
             <Segment>
               <Button content="退出聊天室" icon="close" color="red" labelPosition="left" />
@@ -75,4 +86,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   toggleCurrentRoomMsg,
+  toggleRoomMsgForm,
 })(RoomMsgPanel);

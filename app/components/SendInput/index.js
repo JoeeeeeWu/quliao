@@ -29,7 +29,7 @@ class SendInput extends Component {
     } = this.props;
     const roomId = currentRoom.get("_id");
     const token = localStorage.getItem("token");
-    socketEmit("message", {
+    socketEmit("new message", {
       roomId,
       content,
       token,

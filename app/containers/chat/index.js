@@ -11,6 +11,8 @@ import ChatPanel from "../../components/ChatPanel";
 import RoomPanel from "../../components/RoomPanel";
 import RoomMsgPanel from "../../components/RoomMsgPanel";
 import MyInfoPanel from "../../components/MyInfoPanel";
+import MyInfoForm from "../../components/MyInfoForm";
+import RoomMsgForm from "../../components/RoomMsgForm";
 
 import {
   initMyInfo,
@@ -39,12 +41,15 @@ class Chat extends Component {
       token,
     })
       .then(res => {
+        console.log(res);
         const {
           avatar,
           email,
           meta,
           name,
           _id,
+          city,
+          motto,
           joinedRooms,
         } = res;
         const user = {
@@ -53,8 +58,10 @@ class Chat extends Component {
           meta,
           name,
           _id,
+          city,
+          motto,
         };
-        initMyInfo(immutable.Map(user));
+        initMyInfo(immutable.fromJS(user));
         initJoinedRooms(immutable.fromJS(joinedRooms));
         let messages = immutable.Map();
         joinedRooms.forEach(({ _id: roomId }) => {
@@ -72,12 +79,14 @@ class Chat extends Component {
       showRoomList,
       showCurrentRoomMsg,
       showMyInfo,
+      showMyInfoForm,
+      showRoomMsgForm,
     } = this.props;
     return (
       <Container>
-        <Sidebar.Pushable as={Segment} className={styles.main}>
+        <Sidebar.Pushable as={Segment}>
           <Sidebar
-            animation="push"
+            animation="overlay"
             width="wide"
             visible={showRoomList}
             className={styles.roomListSidebar}
@@ -85,7 +94,7 @@ class Chat extends Component {
             <RoomPanel />
           </Sidebar>
           <Sidebar
-            animation="push"
+            animation="overlay"
             width="wide"
             visible={showMyInfo}
             className={styles.myInfoSidebar}
@@ -93,13 +102,30 @@ class Chat extends Component {
             <MyInfoPanel />
           </Sidebar>
           <Sidebar
-            animation="uncover"
+            animation="overlay"
+            width="wide"
+            visible={showMyInfoForm}
+            className={styles.myInfoFormSidebar}
+          >
+            <MyInfoForm />
+          </Sidebar>
+          <Sidebar
+            animation="push"
             width="wide"
             direction="right"
             visible={showCurrentRoomMsg}
             className={styles.currentRoomSidebar}
           >
             <RoomMsgPanel />
+          </Sidebar>
+          <Sidebar
+            animation="push"
+            width="wide"
+            direction="right"
+            visible={showRoomMsgForm}
+            className={styles.roomMsgFormSidebar}
+          >
+            <RoomMsgForm />
           </Sidebar>
           <Sidebar.Pusher>
             <ChatPanel />
@@ -117,6 +143,8 @@ const mapStateToProps = state => ({
   showRoomList: state.layout.get("showRoomList"),
   showCurrentRoomMsg: state.layout.get("showCurrentRoomMsg"),
   showMyInfo: state.layout.get("showMyInfo"),
+  showMyInfoForm: state.layout.get("showMyInfoForm"),
+  showRoomMsgForm: state.layout.get("showRoomMsgForm"),
 });
 
 

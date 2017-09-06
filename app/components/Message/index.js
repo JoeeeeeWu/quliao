@@ -22,7 +22,7 @@ class Message extends Component {
               {moment(message.get("cteateAt")).format("MM-DD HH:mm")}
             </Header.Subheader>
           </Header>
-          <Segment className={styles.content} stacked compact>
+          <Segment className={styles.content} floated="left" stacked>
             {message.get("content")}
           </Segment>
         </div>

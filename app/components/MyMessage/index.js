@@ -21,7 +21,7 @@ class MyMessage extends Component {
               {moment(message.get("cteateAt")).format("MM-DD HH:mm")}
             </Header.Subheader>
           </Header>
-          <Segment className={styles.content} floated="right" inverted color="teal" stacked compact>
+          <Segment className={styles.content} floated="right" inverted color="teal" stacked>
             {message.get("content")}
           </Segment>
         </div>

@@ -1,6 +1,7 @@
 import {
   INIT_JOINED_ROOMS,
   SWITCH_ROOM,
+  REPLACE_ROOM_MSG,
 } from "../action-types";
 
 export const initJoinedRooms = payload => ({
@@ -10,5 +11,10 @@ export const initJoinedRooms = payload => ({
 
 export const switchRoom = payload => ({
   type: SWITCH_ROOM,
+  payload,
+});
+
+export const replaceRoomMsg = payload => ({
+  type: REPLACE_ROOM_MSG,
   payload,
 });
