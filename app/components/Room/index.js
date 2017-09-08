@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {
   Image,
+  Header,
 } from "semantic-ui-react";
 import { connect } from "react-redux";
 import {

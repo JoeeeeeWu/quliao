@@ -16,7 +16,7 @@ class SendInput extends Component {
 
   onChange=(event, { name, value }) => {
     this.setState({
-      content: value,
+      [name]: value,
     });
   }
 

@@ -1,18 +1,24 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   Segment,
   Button,
-  Icon,
 } from "semantic-ui-react";
+import { toggleSearchRoom } from "../../action-creators/layout";
 
 class JoinRoom extends Component {
   render() {
+    const {
+      toggleSearchRoom,
+    } = this.props;
     return (
       <Segment>
-        <Button content="加入聊天室" icon="talk" color="teal" labelPosition="left" />
+        <Button content="加入聊天室" icon="talk" color="teal" labelPosition="left" onClick={toggleSearchRoom} />
       </Segment>
     );
   }
 }
 
-export default JoinRoom;
+export default connect(null, {
+  toggleSearchRoom,
+})(JoinRoom);

@@ -13,6 +13,8 @@ import RoomMsgPanel from "../../components/RoomMsgPanel";
 import MyInfoPanel from "../../components/MyInfoPanel";
 import MyInfoForm from "../../components/MyInfoForm";
 import RoomMsgForm from "../../components/RoomMsgForm";
+import CreateRoomForm from "../../components/CreateRoomForm";
+import JoinRoomPanel from "../../components/JoinRoomPanel";
 
 import {
   initMyInfo,
@@ -68,9 +70,13 @@ class Chat extends Component {
           messages = messages.set(roomId, immutable.List());
         });
         initMessages(messages);
-        switchRoom(immutable.fromJS(joinedRooms[0]));
+        joinedRooms.forEach((joinedRoom) => {
+          if (joinedRoom.name === "公共聊天室") {
+            switchRoom(immutable.fromJS(joinedRoom));
+          }
+        });
       })
-      .catch();
+      .catch(error => console.log(error));
   }
 
   render() {
@@ -81,6 +87,8 @@ class Chat extends Component {
       showMyInfo,
       showMyInfoForm,
       showRoomMsgForm,
+      showCreateRoomForm,
+      showSearchRoom,
     } = this.props;
     return (
       <Container>
@@ -108,6 +116,22 @@ class Chat extends Component {
             className={styles.myInfoFormSidebar}
           >
             <MyInfoForm />
+          </Sidebar>
+          <Sidebar
+            animation="overlay"
+            width="wide"
+            visible={showCreateRoomForm}
+            className={styles.createRoomFormSidebar}
+          >
+            <CreateRoomForm />
+          </Sidebar>
+          <Sidebar
+            animation="overlay"
+            width="wide"
+            visible={showSearchRoom}
+            className={styles.JoinRoomPanelSidebar}
+          >
+            <JoinRoomPanel />
           </Sidebar>
           <Sidebar
             animation="push"
@@ -145,6 +169,8 @@ const mapStateToProps = state => ({
   showMyInfo: state.layout.get("showMyInfo"),
   showMyInfoForm: state.layout.get("showMyInfoForm"),
   showRoomMsgForm: state.layout.get("showRoomMsgForm"),
+  showCreateRoomForm: state.layout.get("showCreateRoomForm"),
+  showSearchRoom: state.layout.get("showSearchRoom"),
 });
 
 

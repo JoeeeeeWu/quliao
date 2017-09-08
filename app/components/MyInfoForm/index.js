@@ -83,7 +83,7 @@ class MyInfoForm extends Component {
           <Header as="h3" className={styles.header}>
             修改我的资料
           </Header>
-          <Button icon className={styles.closeBtn} color="red" onClick={() => toggleMyInfoForm()}>
+          <Button icon className={styles.closeBtn} color="red" onClick={toggleMyInfoForm}>
             <Icon name="close" />
           </Button>
         </Segment>

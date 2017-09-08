@@ -1,0 +1,33 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+:global(.ui.segment) {
+  &.topbar {
+    flex: auto 0 0;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+  }
+  &.searchbar {
+    flex: auto 0 0;
+  }
+}
+
+.closeBtn {
+  flex: auto 0 0;
+}
+
+:global(.ui) {
+  &.header {
+    flex: auto 1 1;
+    margin-bottom: 0;
+  }
+}
+
+.myInfoFormContainer {
+  flex: auto 1 1;
+  overflow-y: auto;
+}
