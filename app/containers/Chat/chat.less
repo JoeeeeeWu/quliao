@@ -7,3 +7,18 @@
 .JoinRoomPanelSidebar {
   background-color: #fff;
 }
+
+@media (max-width: 767px) {
+  :global(.ui.wide.left.sidebar),
+  :global(.ui.wide.right.sidebar) {
+    &.myInfoFormSidebar,
+    &.roomListSidebar,
+    &.myInfoSidebar,
+    &.currentRoomSidebar,
+    &.roomMsgFormSidebar,
+    &.createRoomFormSidebar,
+    &.JoinRoomPanelSidebar {
+      width: 100%;
+    }
+  }
+}

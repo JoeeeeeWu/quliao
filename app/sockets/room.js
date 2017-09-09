@@ -1,11 +1,11 @@
 import immutable from "immutable";
 import store from "../store";
-
 import {
   replaceRoomMsg,
   switchRoom,
   addRoomMember,
   removeRoom,
+  leaveRoom,
 } from "../action-creators/room";
 
 function roomSocket(socket) {
@@ -43,7 +43,7 @@ function roomSocket(socket) {
       data: {
         userId,
         roomId,
-      }
+      },
     } = msg;
     const state = store.getState();
     const myId = state.user.get("_id");
@@ -53,7 +53,7 @@ function roomSocket(socket) {
       store.dispatch(switchRoom(publicRoom));
       store.dispatch(removeRoom(roomId));
     } else {
-      
+      store.dispatch(leaveRoom(immutable.Map({ userId, roomId })));
     }
   });
 }

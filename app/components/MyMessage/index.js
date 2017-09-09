@@ -17,8 +17,8 @@ class MyMessage extends Component {
         <div className={styles.detail}>
           <Header as="h4" textAlign="right">
             {message.getIn(["from", "name"])}
-            <Header.Subheader>
-              {moment(message.get("cteateAt")).format("MM-DD HH:mm")}
+            <Header.Subheader className={styles.time}>
+              {moment(message.get("createAt")).format("MM-DD HH:mm")}
             </Header.Subheader>
           </Header>
           <Segment className={styles.content} floated="right" inverted color="teal" stacked>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-  Router,
+  BrowserRouter as Router,
   Route,
 } from "react-router-dom";
 import history from "./history";

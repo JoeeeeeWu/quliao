@@ -9,8 +9,11 @@ import {
   Form,
   Input,
   TextArea,
+  Dimmer,
+  Loader,
+  Message,
 } from "semantic-ui-react";
-import socketEmit from "../../sockets/socket-emit";
+import socketEmit from "../../common/socket-emit";
 import {
   toggleCreateRoomForm,
 } from "../../action-creators/layout";
@@ -26,6 +29,10 @@ class CreateRoomForm extends Component {
     avatar: "",
     desc: "",
     declare: "",
+
+    isLoading: false,
+    showMessage: false,
+    result: true,
   }
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
@@ -41,6 +48,9 @@ class CreateRoomForm extends Component {
       addRoomMsg,
     } = this.props;
     const token = localStorage.getItem("token");
+    this.setState({
+      isLoading: true,
+    });
     socketEmit("create room", {
       token,
       data: {
@@ -50,8 +60,22 @@ class CreateRoomForm extends Component {
         declare,
       },
     })
-      .then(res => addRoomMsg(immutable.fromJS(res)))
-      .catch(error => console.log(error));
+      .then((res) => {
+        addRoomMsg(immutable.fromJS(res));
+        this.setState({
+          isLoading: false,
+          showMessage: true,
+          result: true,
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+          showMessage: true,
+          result: false,
+        });
+        console.error(error);
+      });
   }
 
   render() {
@@ -60,6 +84,9 @@ class CreateRoomForm extends Component {
       avatar,
       desc,
       declare,
+      isLoading,
+      showMessage,
+      result,
     } = this.state;
     const {
       toggleCreateRoomForm,
@@ -74,41 +101,60 @@ class CreateRoomForm extends Component {
             <Icon name="close" />
           </Button>
         </Segment>
-        <Segment className={styles.myInfoFormContainer} basic>
-          <Segment.Group>
-            <Segment>
-              <Header as="h4">
-                聊天室名称
-              </Header>
-              <Input fluid name="name" value={name} onChange={this.handleChange} />
-            </Segment>
-            <Segment>
-              <Header as="h4">
-                聊天室头像
-              </Header>
-              <Input fluid name="avatar" value={avatar} onChange={this.handleChange} />
-            </Segment>
-            <Segment>
-              <Header as="h4">
-                聊天室简介
-              </Header>
-              <Form>
-                <TextArea rows={3} name="desc" value={desc} onChange={this.handleChange} />
-              </Form>
-            </Segment>
-            <Segment>
-              <Header as="h4">
-                聊天室公告
-              </Header>
-              <Form>
-                <TextArea rows={3} name="declare" value={declare} onChange={this.handleChange} />
-              </Form>
-            </Segment>
-            <Segment>
-              <Button content="提交" color="teal" onClick={this.handleSubmit} />
-            </Segment>
-          </Segment.Group>
-        </Segment>
+        <Dimmer.Dimmable
+          as={Segment}
+          blurring
+          className={styles.myInfoFormContainer}
+          basic
+          dimmed={isLoading}
+        >
+          <Dimmer active={isLoading} inverted>
+            <Loader>正在创建聊天室中...</Loader>
+          </Dimmer>
+          <Segment attached>
+            <Header as="h4">
+              聊天室名称
+            </Header>
+            <Input fluid name="name" value={name} onChange={this.handleChange} />
+          </Segment>
+          <Segment attached>
+            <Header as="h4">
+              聊天室头像
+            </Header>
+            <Input fluid name="avatar" value={avatar} onChange={this.handleChange} />
+          </Segment>
+          <Segment attached>
+            <Header as="h4">
+              聊天室简介
+            </Header>
+            <Form>
+              <TextArea rows={3} name="desc" value={desc} onChange={this.handleChange} />
+            </Form>
+          </Segment>
+          <Segment attached>
+            <Header as="h4">
+              聊天室公告
+            </Header>
+            <Form>
+              <TextArea rows={3} name="declare" value={declare} onChange={this.handleChange} />
+            </Form>
+          </Segment>
+          <Segment attached>
+            <Button content="提交" color="teal" onClick={this.handleSubmit} />
+          </Segment>
+          {
+            showMessage ?
+              <Message
+                positive={result}
+                negative={!result}
+                attached
+                icon={result ? "smile" : "frown"}
+                header="聊天室创建结果"
+                content={result ? "聊天室创建成功！" : "聊天室创建失败，请重新尝试"}
+              /> :
+              null
+          }
+        </Dimmer.Dimmable>
       </Segment>
     );
   }

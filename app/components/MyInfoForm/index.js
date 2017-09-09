@@ -9,8 +9,11 @@ import {
   Form,
   Input,
   TextArea,
+  Dimmer,
+  Loader,
+  Message,
 } from "semantic-ui-react";
-import socketEmit from "../../sockets/socket-emit";
+import socketEmit from "../../common/socket-emit";
 import {
   toggleMyInfoForm,
 } from "../../action-creators/layout";
@@ -27,6 +30,11 @@ class MyInfoForm extends Component {
     avatar: "",
     city: "",
     motto: "",
+
+    isLoading: false,
+
+    showMessage: false,
+    result: true,
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -53,6 +61,9 @@ class MyInfoForm extends Component {
       initMyInfo,
     } = this.props;
     const token = localStorage.getItem("token");
+    this.setState({
+      isLoading: true,
+    });
     socketEmit("change my info", {
       token,
       data: {
@@ -62,8 +73,22 @@ class MyInfoForm extends Component {
         motto,
       },
     })
-      .then(res => initMyInfo(immutable.fromJS(res)))
-      .catch(error => console.log(error));
+      .then((res) => {
+        initMyInfo(immutable.fromJS(res));
+        this.setState({
+          isLoading: false,
+          showMessage: true,
+          result: true,
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+          showMessage: true,
+          result: false,
+        });
+        console.error(error);
+      });
   }
 
   render() {
@@ -72,6 +97,9 @@ class MyInfoForm extends Component {
       avatar,
       city,
       motto,
+      isLoading,
+      showMessage,
+      result,
     } = this.state;
     const {
       user,
@@ -87,39 +115,58 @@ class MyInfoForm extends Component {
             <Icon name="close" />
           </Button>
         </Segment>
-        <Segment className={styles.myInfoFormContainer} basic>
-          <Segment.Group>
-            <Segment>
-              <Header as="h4">
-                昵称
-              </Header>
-              <Input fluid name="name" value={name} onChange={this.handleChange} />
-            </Segment>
-            <Segment>
-              <Header as="h4">
-                头像
-              </Header>
-              <Input fluid name="avatar" value={avatar} onChange={this.handleChange} />
-            </Segment>
-            <Segment>
-              <Header as="h4">
-                所在城市
-              </Header>
-              <Input fluid name="city" value={city} onChange={this.handleChange} />
-            </Segment>
-            <Segment>
-              <Header as="h4">
-                签名
-              </Header>
-              <Form>
-                <TextArea rows={3} name="motto" value={motto} onChange={this.handleChange} />
-              </Form>
-            </Segment>
-            <Segment>
-              <Button content="提交" color="teal" onClick={this.handleSubmit} />
-            </Segment>
-          </Segment.Group>
-        </Segment>
+        <Dimmer.Dimmable
+          as={Segment}
+          blurring
+          className={styles.myInfoFormContainer}
+          basic
+          dimmed={isLoading}
+        >
+          <Dimmer active={isLoading} inverted>
+            <Loader>正在修改中...</Loader>
+          </Dimmer>
+          <Segment attached>
+            <Header as="h4">
+              昵称
+            </Header>
+            <Input fluid name="name" value={name} onChange={this.handleChange} />
+          </Segment>
+          <Segment attached>
+            <Header as="h4">
+              头像
+            </Header>
+            <Input fluid name="avatar" value={avatar} onChange={this.handleChange} />
+          </Segment>
+          <Segment attached>
+            <Header as="h4">
+              所在城市
+            </Header>
+            <Input fluid name="city" value={city} onChange={this.handleChange} />
+          </Segment>
+          <Segment attached>
+            <Header as="h4">
+              签名
+            </Header>
+            <Form>
+              <TextArea rows={3} name="motto" value={motto} onChange={this.handleChange} />
+            </Form>
+          </Segment>
+          <Segment attached>
+            <Button content="提交" color="teal" onClick={this.handleSubmit} />
+          </Segment>
+          {
+            showMessage ?
+              <Message
+                positive={result}
+                negative={!result}
+                attached
+                icon={result ? "smile" : "frown"}
+                header="修改结果"
+                content={result ? "我的资料修改成功！" : "资料修改失败，请重新尝试"}
+              /> :
+              null
+          }
+        </Dimmer.Dimmable>
       </Segment>
     );
   }

@@ -18,14 +18,15 @@ class My extends Component {
   render() {
     const {
       user,
+      isOnline,
       toggleRoomList,
       toggleMyInfo,
     } = this.props;
     return (
       <Segment className={styles.container}>
         <Header as="h3" className={styles.header}>
-          <Image shape="circular" src={user.get("avatar")} onClick={() => toggleMyInfo()} />
-          {user.get("name")}
+          <Image className={styles.avatar} shape="circular" src={user.get("avatar")} onClick={() => toggleMyInfo()} />
+          {`${user.get("name")} ${isOnline ? "在线" : "离线"}`}
         </Header>
         <Button icon className={styles.closeBtn} color="red" onClick={() => toggleRoomList()}>
           <Icon name="close" />
@@ -37,6 +38,7 @@ class My extends Component {
 
 const mapStateToProps = state => ({
   user: state.user,
+  isOnline: state.layout.get("isOnline"),
 });
 
 export default connect(mapStateToProps, {

@@ -1,14 +1,60 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import immutable from "immutable";
-import { Segment } from "semantic-ui-react";
+import { Segment, Button } from "semantic-ui-react";
+import socketEmit from "../../common/socket-emit";
 import Message from "../Message";
 import MyMessage from "../MyMessage";
-
+import { addMessageList } from "../../action-creators/message";
 import styles from "./message-list.less";
 
 class MessageList extends Component {
+
+  state = {
+    isLoading: false,
+  }
+
+  getMoreMessages = () => {
+    this.setState({
+      isLoading: true,
+    });
+    const {
+      currentRoom,
+      messages,
+      addMessageList,
+    } = this.props;
+    const roomId = currentRoom.get("_id");
+    const time = messages.getIn([roomId, 0, "createAt"]) || Date.now();
+    const token = localStorage.getItem("token");
+    socketEmit("get history messages", {
+      token,
+      data: {
+        roomId,
+        time,
+        num: 5,
+      },
+    })
+      .then((res) => {
+        this.setState({
+          isLoading: false,
+        });
+        addMessageList(immutable.fromJS({
+          roomId,
+          messageList: res,
+        }));
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: true,
+        });
+        console.log(error);
+      });
+  }
+
   render() {
+    const {
+      isLoading,
+    } = this.state;
     const {
       user,
       messages,
@@ -17,6 +63,7 @@ class MessageList extends Component {
     const currentMessages = messages.get(currentRoom.get("_id")) || immutable.List();
     return (
       <Segment className={styles.container}>
+        <Button loading={isLoading} disabled={isLoading} basic fluid onClick={this.getMoreMessages}>点击加载历史消息</Button>
         {
           currentMessages.map((message) => {
             const userId = user.get("_id");
@@ -40,5 +87,7 @@ const mapStateToProps = state => ({
   currentRoom: state.room.get("currentRoom"),
 });
 
-export default connect(mapStateToProps)(MessageList);
+export default connect(mapStateToProps, {
+  addMessageList,
+})(MessageList);
 

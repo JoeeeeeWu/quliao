@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import {
   Button,
   Form,
@@ -6,11 +7,9 @@ import {
   Segment,
   Tab,
 } from "semantic-ui-react";
-
 import axios from "axios";
 import styles from "./login.less";
-import socketEmit from "../../sockets/socket-emit";
-import history from "../../routes/history";
+import socketEmit from "../../common/socket-emit";
 import { apiBaseUrl } from "../../config";
 
 class Login extends Component {
@@ -45,7 +44,7 @@ class Login extends Component {
         } = res.data;
         if (status === 0) {
           localStorage.setItem("token", token);
-          history.push("/");
+          this.props.history.push("/");
         }
       })
       .catch(error => console.log(error));
@@ -166,4 +165,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

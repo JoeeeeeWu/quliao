@@ -4,7 +4,7 @@ import {
   Input,
   Segment,
 } from "semantic-ui-react";
-import socketEmit from "../../sockets/socket-emit";
+import socketEmit from "../../common/socket-emit";
 
 import styles from "./send-input.less";
 

@@ -26,7 +26,7 @@ import {
 import {
   initMessages,
 } from "../../action-creators/message";
-import socketEmit from "../../sockets/socket-emit";
+import socketEmit from "../../common/socket-emit";
 import styles from "./chat.less";
 
 class Chat extends Component {

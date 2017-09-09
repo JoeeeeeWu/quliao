@@ -4,12 +4,13 @@ import immutable from "immutable";
 import {
   Segment,
   Header,
-  Image,
   Icon,
   Button,
   Input,
+  Dimmer,
+  Loader,
 } from "semantic-ui-react";
-import socketEmit from "../../sockets/socket-emit";
+import socketEmit from "../../common/socket-emit";
 import styles from "./join-room-panel.less";
 import RoomCard from "../RoomCard";
 import { toggleSearchRoom } from "../../action-creators/layout";
@@ -19,6 +20,7 @@ class JoinRoomPanel extends Component {
   state = {
     name: "",
     rooms: immutable.List(),
+    isLoading: false,
   }
 
   onChange=(event, { name, value }) => {
@@ -32,6 +34,9 @@ class JoinRoomPanel extends Component {
     const {
       name,
     } = this.state;
+    this.setState({
+      isLoading: true,
+    });
     socketEmit("search rooms", {
       token,
       data: {
@@ -40,14 +45,21 @@ class JoinRoomPanel extends Component {
     })
       .then(res => this.setState({
         rooms: immutable.fromJS(res),
+        isLoading: false,
       }))
-      .catch(error => console.log(error));
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        console.error(error)
+      });
   }
 
   render() {
     const {
       name,
       rooms,
+      isLoading,
     } = this.state;
     const {
       toggleSearchRoom,
@@ -68,6 +80,8 @@ class JoinRoomPanel extends Component {
               color: "teal",
               content: "搜索",
               onClick: this.handleSearch,
+              loading: isLoading,
+              disabled: isLoading,
             }}
             name="name"
             value={name}
@@ -76,11 +90,20 @@ class JoinRoomPanel extends Component {
             fluid
           />
         </Segment>
-        <Segment className={styles.myInfoFormContainer} basic>
+        <Dimmer.Dimmable
+          as={Segment}
+          blurring
+          className={styles.myInfoFormContainer}
+          basic
+          dimmed={isLoading}
+        >
+          <Dimmer active={isLoading} inverted>
+            <Loader>正在搜索中...</Loader>
+          </Dimmer>
           {
             rooms.map(room => <RoomCard key={room.get("_id")} room={room} />)
           }
-        </Segment>
+        </Dimmer.Dimmable>
       </Segment>
     );
   }

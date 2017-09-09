@@ -7,6 +7,7 @@ import {
   ADD_ROOM_MEMBER,
   REMOVE_ROOM,
   REMOVE_MEMBER,
+  INIT_STATE,
 } from "../action-types";
 
 const INITIAL_STATE = immutable.Map({
@@ -17,7 +18,7 @@ const INITIAL_STATE = immutable.Map({
 const room = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case INIT_JOINED_ROOMS:
-      return state.update("joinedRooms", list => list.concat(action.payload));
+      return state.set("joinedRooms", action.payload);
     case SWITCH_ROOM:
       return state.set("currentRoom", action.payload);
     case REPLACE_ROOM_MSG:
@@ -35,6 +36,8 @@ const room = (state = INITIAL_STATE, action) => {
       const joinedRoomIndex = state.get("joinedRooms").findIndex(joinedRoom => joinedRoom.get("_id") === action.payload.get("roomId"));
       const removeMemberIndex = state.getIn(["joinedRooms", joinedRoomIndex, "members"]).findIndex(member => member.get("_id") === action.payload.get("userId"));
       return state.updateIn(["joinedRooms", joinedRoomIndex, "members"], list => list.splice(removeMemberIndex, 1));
+    case INIT_STATE:
+      return INITIAL_STATE;
     default:
       return state;
   }

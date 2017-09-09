@@ -10,7 +10,7 @@ import {
   Modal,
 } from "semantic-ui-react";
 import moment from "moment";
-import socketEmit from "../../sockets/socket-emit";
+import socketEmit from "../../common/socket-emit";
 import {
   toggleCurrentRoomMsg,
   toggleRoomMsgForm,
@@ -92,6 +92,7 @@ class RoomMsgPanel extends Component {
       toggleRoomMsgForm,
       user,
     } = this.props;
+    const isOwner = user.get("_id") === currentRoom.getIn(["owner", "_id"]);
     return (
       <Segment basic className={styles.container}>
         <Segment basic className={styles.topbar}>
@@ -103,64 +104,66 @@ class RoomMsgPanel extends Component {
           </Button>
         </Segment>
         <Segment basic className={styles.roomMsgContainer}>
-          <Segment.Group>
-            <Segment>
-              <Header as="h4">
-                <Image shape="circular" src={currentRoom.get("avatar")} />
-                {currentRoom.get("name")}
-              </Header>
-            </Segment>
-            <Segment>
-              <Header as="h4">
-                群主
-              </Header>
-              <div>
-                <Image src={currentRoom.getIn(["owner", "avatar"])} avatar />
-                <span>{currentRoom.getIn(["owner", "name"])}</span>
-              </div>
-            </Segment>
-            <Segment>
-              <Header as="h4">
-                创建时间
-              </Header>
-              <p>{moment(currentRoom.getIn(["meta", "createAt"])).format("YYYY-MM-DD HH:mm:ss")}</p>
-            </Segment>
-            <Segment>
-              <Header as="h4">
-                聊天室简介
-              </Header>
-              <p>{currentRoom.get("desc")}</p>
-            </Segment>
-            <Segment>
-              <Header as="h4">
-                聊天室公告
-              </Header>
-              <p>{currentRoom.get("declare")}</p>
-            </Segment>
-            <Segment>
-              <Header as="h4">
-                聊天室成员
-              </Header>
-              <Label.Group>
-                {
-                  currentRoom.get("members") && currentRoom.get("members").map(member => (
-                    <Label key={member.get("_id")} image color={currentRoom.getIn(["owner", "_id"]) === member.get("_id") ? "orange" : "teal"}>
-                      <img src={member.get("avatar")} alt={member.get("name")} />
-                      {member.get("name")}
-                    </Label>
-                  ))
-                }
-              </Label.Group>
-            </Segment>
-            <Segment>
-              <Button content="修改聊天室信息" icon="write" color="teal" labelPosition="left" onClick={toggleRoomMsgForm} />
-            </Segment>
-            <Segment>
+          <Segment attached>
+            <Header as="h4">
+              <Image shape="circular" src={currentRoom.get("avatar")} />
+              {currentRoom.get("name")}
+            </Header>
+          </Segment>
+          <Segment attached>
+            <Header as="h4">
+              群主
+            </Header>
+            <div>
+              <Image src={currentRoom.getIn(["owner", "avatar"])} avatar />
+              <span>{currentRoom.getIn(["owner", "name"])}</span>
+            </div>
+          </Segment>
+          <Segment attached>
+            <Header as="h4">
+              创建时间
+            </Header>
+            <p>{moment(currentRoom.getIn(["meta", "createAt"])).format("YYYY-MM-DD HH:mm:ss")}</p>
+          </Segment>
+          <Segment attached>
+            <Header as="h4">
+              聊天室简介
+            </Header>
+            <p>{currentRoom.get("desc")}</p>
+          </Segment>
+          <Segment attached>
+            <Header as="h4">
+              聊天室公告
+            </Header>
+            <p>{currentRoom.get("declare")}</p>
+          </Segment>
+          <Segment attached>
+            <Header as="h4">
+              聊天室成员
+            </Header>
+            <Label.Group>
               {
-                user.get("_id") === currentRoom.getIn(["owner", "_id"]) 
-                ?
+                currentRoom.get("members") && currentRoom.get("members").map(member => (
+                  <Label key={member.get("_id")} image color={currentRoom.getIn(["owner", "_id"]) === member.get("_id") ? "orange" : "teal"}>
+                    <img src={member.get("avatar")} alt={member.get("name")} />
+                    {member.get("name")}
+                  </Label>
+                ))
+              }
+            </Label.Group>
+          </Segment>
+          {
+            isOwner ?
+              <Segment attached>
+                <Button content="修改聊天室信息" icon="write" color="teal" labelPosition="left" onClick={toggleRoomMsgForm} />
+              </Segment> :
+              null
+          }
+          <Segment attached>
+            {
+              isOwner ?
                 <Modal
-                  trigger={<Button content="解散聊天室" icon="close" color="red" labelPosition="left" onClick={this.openDismissModal} />}
+                  trigger={<Button disabled={currentRoom.get("name") === "公共聊天室"} content="解散聊天室" icon="trash" color="red" labelPosition="left" onClick={this.openDismissModal} />}
                   open={showDismissModal}
                   basic
                   size="small"
@@ -177,10 +180,9 @@ class RoomMsgPanel extends Component {
                       <Icon name="checkmark" /> Got it
                     </Button>
                   </Modal.Actions>
-                </Modal>
-                :
+                </Modal> :
                 <Modal
-                  trigger={<Button content="退出聊天室" icon="close" color="red" labelPosition="left" onClick={this.showQuitModal} />}
+                  trigger={<Button content="退出聊天室" icon="close" color="red" labelPosition="left" onClick={this.openQuitModal} />}
                   open={showQuitModal}
                   basic
                   size="small"
@@ -198,9 +200,8 @@ class RoomMsgPanel extends Component {
                     </Button>
                   </Modal.Actions>
                 </Modal>
-              }
-            </Segment>
-          </Segment.Group>
+            }
+          </Segment>
         </Segment>
       </Segment>
     );

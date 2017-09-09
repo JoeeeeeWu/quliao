@@ -6,7 +6,7 @@ import {
   Image,
 } from "semantic-ui-react";
 import immutable from "immutable";
-import socketEmit from "../../sockets/socket-emit";
+import socketEmit from "../../common/socket-emit";
 import {
   addRoomMsg,
   addRoomMember,
