@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import {
   Image,
   Segment,
@@ -7,7 +7,7 @@ import {
 import moment from "moment";
 import styles from "./my-message.less";
 
-class MyMessage extends Component {
+class MyMessage extends PureComponent {
   render() {
     const {
       message,

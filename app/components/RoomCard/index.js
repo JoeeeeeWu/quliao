@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import {
   Card,
@@ -12,7 +12,7 @@ import {
   addRoomMember,
 } from "../../action-creators/room";
 
-class RoomCard extends Component {
+class RoomCard extends PureComponent {
 
   joinRoom = () => {
     const {

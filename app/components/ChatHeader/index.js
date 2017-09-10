@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import {
   Header,
@@ -15,7 +15,7 @@ import {
 
 import styles from "./chat-header.less";
 
-class ChatHeader extends Component {
+class ChatHeader extends PureComponent {
   render() {
     const {
       currentRoom,

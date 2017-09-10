@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import immutable from "immutable";
 import {
@@ -16,7 +16,7 @@ import styles from "./join-room-panel.less";
 import RoomCard from "../RoomCard";
 import { toggleSearchRoom } from "../../action-creators/layout";
 
-class JoinRoomPanel extends Component {
+class JoinRoomPanel extends PureComponent {
 
   state = {
     name: "",

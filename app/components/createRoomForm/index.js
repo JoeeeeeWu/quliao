@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import immutable from "immutable";
 import {
@@ -24,7 +24,7 @@ import {
 import { initMessages } from "../../action-creators/message";
 import styles from "./create-room-form.less";
 
-class CreateRoomForm extends Component {
+class CreateRoomForm extends PureComponent {
 
   state = {
     name: "",

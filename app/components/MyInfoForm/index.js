@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import immutable from "immutable";
 import {
@@ -17,7 +17,7 @@ import { toggleMyInfoForm } from "../../action-creators/layout";
 import { initMyInfo } from "../../action-creators/user";
 import styles from "./my-info-form.less";
 
-class MyInfoForm extends Component {
+class MyInfoForm extends PureComponent {
 
   state = {
     name: "",

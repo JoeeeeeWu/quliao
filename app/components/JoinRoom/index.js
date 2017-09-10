@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import {
   Segment,
@@ -6,7 +6,7 @@ import {
 } from "semantic-ui-react";
 import { toggleSearchRoom } from "../../action-creators/layout";
 
-class JoinRoom extends Component {
+class JoinRoom extends PureComponent {
   render() {
     const {
       toggleSearchRoom,

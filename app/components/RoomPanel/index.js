@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import {
   Segment,
 } from "semantic-ui-react";
@@ -10,7 +10,7 @@ import JoinRoom from "../JoinRoom";
 
 import styles from "./room-panel.less";
 
-class RoomPanel extends Component {
+class RoomPanel extends PureComponent {
   render() {
     return (
       <Segment.Group className={styles.container}>

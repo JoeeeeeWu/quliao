@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import {
   Segment,
@@ -14,7 +14,7 @@ import {
 
 import styles from "./my.less";
 
-class My extends Component {
+class My extends PureComponent {
   render() {
     const {
       user,

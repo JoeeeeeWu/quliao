@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import {
   Segment,
@@ -21,7 +21,7 @@ import {
 
 import styles from "./room-msg-panel.less";
 
-class RoomMsgPanel extends Component {
+class RoomMsgPanel extends PureComponent {
 
   state = {
     showDismissModal: false,

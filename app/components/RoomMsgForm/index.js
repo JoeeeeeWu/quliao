@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import immutable from "immutable";
 import {
@@ -7,8 +7,6 @@ import {
   Button,
   Icon,
   Form,
-  Input,
-  TextArea,
   Dimmer,
   Loader,
   Message,
@@ -20,7 +18,7 @@ import {
 } from "../../action-creators/layout";
 import styles from "./room-msg-form.less";
 
-class RoomMsgForm extends Component {
+class RoomMsgForm extends PureComponent {
 
   state = {
     name: "",
@@ -97,7 +95,6 @@ class RoomMsgForm extends Component {
       showMessage,
       result,
     } = this.state;
-    console.log(name);
     const {
       toggleRoomMsgForm,
     } = this.props;

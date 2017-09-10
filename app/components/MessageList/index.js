@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import immutable from "immutable";
 import { Segment, Button } from "semantic-ui-react";
@@ -9,7 +9,7 @@ import MyMessage from "../MyMessage";
 import { addMessageList } from "../../action-creators/message";
 import styles from "./message-list.less";
 
-class MessageList extends Component {
+class MessageList extends PureComponent {
 
   state = {
     isLoading: false,

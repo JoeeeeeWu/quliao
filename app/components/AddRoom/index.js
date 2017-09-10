@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import {
   Segment,
@@ -8,7 +8,7 @@ import {
 
 import { toggleCreateRoomForm } from "../../action-creators/layout";
 
-class AddRoom extends Component {
+class AddRoom extends PureComponent {
   render() {
     const {
       toggleCreateRoomForm,

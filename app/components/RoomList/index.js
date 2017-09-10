@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import {
   Segment,
@@ -7,7 +7,7 @@ import Room from "../Room";
 
 import styles from "./room-list.less";
 
-class RoomList extends Component {
+class RoomList extends PureComponent {
 
   render() {
     const {

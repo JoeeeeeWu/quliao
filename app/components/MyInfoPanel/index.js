@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import {
@@ -18,7 +18,7 @@ import {
 import logout from "../../common/logout";
 import styles from "./my-info-panel.less";
 
-class MyInfoPanel extends Component {
+class MyInfoPanel extends PureComponent {
 
   state = {
     showLogoutModal: false,

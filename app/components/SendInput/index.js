@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import {
   Input,
@@ -9,7 +9,7 @@ import socketEmit from "../../common/socket-emit";
 import showAlert from "../../common/showAlert";
 import styles from "./send-input.less";
 
-class SendInput extends Component {
+class SendInput extends PureComponent {
 
   state={
     content: "",

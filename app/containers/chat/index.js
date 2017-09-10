@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import immutable from "immutable";
 import {
@@ -26,7 +26,7 @@ import socketEmit from "../../common/socket-emit";
 import showAlert from "../../common/showAlert";
 import styles from "./chat.less";
 
-class Chat extends Component {
+class Chat extends PureComponent {
 
   componentDidMount=() => {
     const {

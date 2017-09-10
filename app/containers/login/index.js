@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { withRouter } from "react-router-dom";
 import {
   Button,
@@ -12,7 +12,7 @@ import styles from "./login.less";
 import socketEmit from "../../common/socket-emit";
 import { apiBaseUrl } from "../../config";
 
-class Login extends Component {
+class Login extends PureComponent {
 
   state={
     loginEmail: "",

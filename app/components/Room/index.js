@@ -1,14 +1,11 @@
-import React, { Component } from "react";
-import {
-  Image,
-  Header,
-} from "semantic-ui-react";
+import React, { PureComponent } from "react";
+import { Image } from "semantic-ui-react";
 import { connect } from "react-redux";
 import moment from "moment";
 import { switchRoom } from "../../action-creators/room";
 import styles from "./room.less";
 
-class Room extends Component {
+class Room extends PureComponent {
 
   handleClick=() => {
     const {
