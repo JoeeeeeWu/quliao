@@ -9,6 +9,8 @@ import {
   TOGGLE_SEARCH_ROOM,
   INIT_STATE,
   TOGGLE_ONLINE,
+  TOGGLE_ALERT,
+  CHANGE_ALERT_TEXT,
 } from "../action-types";
 
 const INITIAL_STATE = immutable.Map({
@@ -20,6 +22,8 @@ const INITIAL_STATE = immutable.Map({
   showCreateRoomForm: false,
   showSearchRoom: false,
   isOnline: false,
+  showAlert: false,
+  alertText: "",
 });
 
 const layout = (state = INITIAL_STATE, action) => {
@@ -42,6 +46,10 @@ const layout = (state = INITIAL_STATE, action) => {
       return INITIAL_STATE;
     case TOGGLE_ONLINE:
       return state.set("isOnline", action.payload);
+    case TOGGLE_ALERT:
+      return state.set("showAlert", action.payload);
+    case CHANGE_ALERT_TEXT:
+      return state.set("alertText", action.payload);
     default:
       return state;
   }

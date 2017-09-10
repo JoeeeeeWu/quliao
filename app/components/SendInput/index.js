@@ -4,8 +4,9 @@ import {
   Input,
   Segment,
 } from "semantic-ui-react";
+import immutable from "immutable";
 import socketEmit from "../../common/socket-emit";
-
+import showAlert from "../../common/showAlert";
 import styles from "./send-input.less";
 
 class SendInput extends Component {
@@ -34,8 +35,12 @@ class SendInput extends Component {
       content,
       token,
     })
-      .then(res => console.log(res))
-      .catch(error => console.log(error));
+      .then((res) => {
+        console.log("发送成功");
+      })
+      .catch((error) => {
+        showAlert("发送消息失败！");
+      });
   }
 
   render() {
@@ -62,8 +67,11 @@ class SendInput extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  currentRoom: state.room.get("currentRoom"),
-});
+const mapStateToProps = (state) => {
+  const currentRoomIndex = state.room.get("joinedRooms").findIndex(joinedRoom => joinedRoom.get("_id") === state.room.get("currentRoomId"));
+  return {
+    currentRoom: state.room.getIn(["joinedRooms", currentRoomIndex]) || immutable.fromJS({ owner: {} }),
+  };
+};
 
 export default connect(mapStateToProps)(SendInput);

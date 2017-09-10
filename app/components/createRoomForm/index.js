@@ -14,12 +14,14 @@ import {
   Message,
 } from "semantic-ui-react";
 import socketEmit from "../../common/socket-emit";
+import { roomAvatarOptions } from "../../common/const";
 import {
   toggleCreateRoomForm,
 } from "../../action-creators/layout";
 import {
   addRoomMsg,
 } from "../../action-creators/room";
+import { initMessages } from "../../action-creators/message";
 import styles from "./create-room-form.less";
 
 class CreateRoomForm extends Component {
@@ -46,6 +48,7 @@ class CreateRoomForm extends Component {
     } = this.state;
     const {
       addRoomMsg,
+      initMessages,
     } = this.props;
     const token = localStorage.getItem("token");
     this.setState({
@@ -62,6 +65,7 @@ class CreateRoomForm extends Component {
     })
       .then((res) => {
         addRoomMsg(immutable.fromJS(res));
+        initMessages(res._id);
         this.setState({
           isLoading: false,
           showMessage: true,
@@ -74,7 +78,6 @@ class CreateRoomForm extends Component {
           showMessage: true,
           result: false,
         });
-        console.error(error);
       });
   }
 
@@ -111,37 +114,22 @@ class CreateRoomForm extends Component {
           <Dimmer active={isLoading} inverted>
             <Loader>正在创建聊天室中...</Loader>
           </Dimmer>
-          <Segment attached>
-            <Header as="h4">
-              聊天室名称
-            </Header>
-            <Input fluid name="name" value={name} onChange={this.handleChange} />
-          </Segment>
-          <Segment attached>
-            <Header as="h4">
-              聊天室头像
-            </Header>
-            <Input fluid name="avatar" value={avatar} onChange={this.handleChange} />
-          </Segment>
-          <Segment attached>
-            <Header as="h4">
-              聊天室简介
-            </Header>
-            <Form>
-              <TextArea rows={3} name="desc" value={desc} onChange={this.handleChange} />
-            </Form>
-          </Segment>
-          <Segment attached>
-            <Header as="h4">
-              聊天室公告
-            </Header>
-            <Form>
-              <TextArea rows={3} name="declare" value={declare} onChange={this.handleChange} />
-            </Form>
-          </Segment>
-          <Segment attached>
+          <Form as={Segment}>
+            <Form.Input label="聊天室名称" fluid name="name" value={name} onChange={this.handleChange} />
+            <Form.Dropdown
+              label="聊天室头像"
+              placeholder="请选择头像"
+              fluid
+              selection
+              options={roomAvatarOptions}
+              name="avatar"
+              value={avatar}
+              onChange={this.handleChange}
+            />
+            <Form.TextArea label="聊天室简介" rows={3} name="desc" value={desc} onChange={this.handleChange} />
+            <Form.TextArea label="聊天室公告" rows={3} name="declare" value={declare} onChange={this.handleChange} />
             <Button content="提交" color="teal" onClick={this.handleSubmit} />
-          </Segment>
+          </Form>
           {
             showMessage ?
               <Message
@@ -163,4 +151,5 @@ class CreateRoomForm extends Component {
 export default connect(null, {
   toggleCreateRoomForm,
   addRoomMsg,
+  initMessages,
 })(CreateRoomForm);

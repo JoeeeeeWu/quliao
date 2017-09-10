@@ -11,7 +11,7 @@ import {
 } from "../action-types";
 
 const INITIAL_STATE = immutable.Map({
-  currentRoom: immutable.Map(),
+  currentRoomId: "",
   joinedRooms: immutable.List(),
 });
 
@@ -20,7 +20,7 @@ const room = (state = INITIAL_STATE, action) => {
     case INIT_JOINED_ROOMS:
       return state.set("joinedRooms", action.payload);
     case SWITCH_ROOM:
-      return state.set("currentRoom", action.payload);
+      return state.set("currentRoomId", action.payload);
     case REPLACE_ROOM_MSG:
       const replaceRoomMsgIndex = state.get("joinedRooms").findIndex(joinedRoom => joinedRoom.get("_id") === action.payload.get("_id"));
       return state.setIn(["joinedRooms", replaceRoomMsgIndex], action.payload);

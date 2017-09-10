@@ -8,7 +8,10 @@ import {
   Icon,
   Label,
   Modal,
+  Dimmer,
+  Loader,
 } from "semantic-ui-react";
+import immutable from "immutable";
 import moment from "moment";
 import socketEmit from "../../common/socket-emit";
 import {
@@ -23,6 +26,7 @@ class RoomMsgPanel extends Component {
   state = {
     showDismissModal: false,
     showQuitModal: false,
+    isLoading: false,
   }
 
   openDismissModal = () => {
@@ -50,6 +54,11 @@ class RoomMsgPanel extends Component {
   }
 
   dismissRoom = () => {
+    const { toggleCurrentRoomMsg } = this.props;
+    this.closeDismissModal();
+    this.setState({
+      isLoading: true,
+    });
     const { currentRoom } = this.props;
     const token = localStorage.getItem("token");
     const roomId = currentRoom.get("_id");
@@ -60,12 +69,26 @@ class RoomMsgPanel extends Component {
       },
     })
       .then((res) => {
+        this.setState({
+          isLoading: false,
+        });
+        toggleCurrentRoomMsg();
         console.log(res);
       })
-      .catch(error => console.log(error));
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        console.log(error);
+      });
   }
 
   quitRoom = () => {
+    const { toggleCurrentRoomMsg } = this.props;
+    this.closeQuitModal();
+    this.setState({
+      isLoading: true,
+    });
     const { currentRoom } = this.props;
     const token = localStorage.getItem("token");
     const roomId = currentRoom.get("_id");
@@ -76,15 +99,25 @@ class RoomMsgPanel extends Component {
       },
     })
       .then((res) => {
+        this.setState({
+          isLoading: false,
+        });
+        toggleCurrentRoomMsg();
         console.log(res);
       })
-      .catch(error => console.log(error));
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        console.log(error);
+      });
   }
 
   render() {
     const {
       showDismissModal,
       showQuitModal,
+      isLoading,
     } = this.state;
     const {
       currentRoom,
@@ -99,11 +132,20 @@ class RoomMsgPanel extends Component {
           <Header as="h3" className={styles.header}>
             聊天室资料
           </Header>
-          <Button icon className={styles.closeBtn} color="red" onClick={() => toggleCurrentRoomMsg()}>
+          <Button icon className={styles.closeBtn} color="red" onClick={toggleCurrentRoomMsg}>
             <Icon name="close" />
           </Button>
         </Segment>
-        <Segment basic className={styles.roomMsgContainer}>
+        <Dimmer.Dimmable
+          as={Segment}
+          blurring
+          className={styles.roomMsgContainer}
+          basic
+          dimmed={isLoading}
+        >
+          <Dimmer active={isLoading} inverted>
+            <Loader>请稍候...</Loader>
+          </Dimmer>
           <Segment attached>
             <Header as="h4">
               <Image shape="circular" src={currentRoom.get("avatar")} />
@@ -202,16 +244,19 @@ class RoomMsgPanel extends Component {
                 </Modal>
             }
           </Segment>
-        </Segment>
+        </Dimmer.Dimmable>
       </Segment>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  currentRoom: state.room.get("currentRoom"),
-  user: state.user,
-});
+const mapStateToProps = (state) => {
+  const currentRoomIndex = state.room.get("joinedRooms").findIndex(joinedRoom => joinedRoom.get("_id") === state.room.get("currentRoomId"));
+  return {
+    currentRoom: state.room.getIn(["joinedRooms", currentRoomIndex]) || immutable.fromJS({ owner: {} }),
+    user: state.user,
+  };
+};
 
 export default connect(mapStateToProps, {
   toggleCurrentRoomMsg,

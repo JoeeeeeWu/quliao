@@ -7,6 +7,7 @@ import {
   Icon,
   Button,
 } from "semantic-ui-react";
+import immutable from "immutable";
 import {
   toggleRoomList,
   toggleCurrentRoomMsg,
@@ -38,9 +39,12 @@ class ChatHeader extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  currentRoom: state.room.get("currentRoom"),
-});
+const mapStateToProps = (state) => {
+  const currentRoomIndex = state.room.get("joinedRooms").findIndex(joinedRoom => joinedRoom.get("_id") === state.room.get("currentRoomId"));
+  return {
+    currentRoom: state.room.getIn(["joinedRooms", currentRoomIndex]) || immutable.fromJS({ owner: {} }),
+  };
+};
 
 export default connect(mapStateToProps, {
   toggleRoomList,

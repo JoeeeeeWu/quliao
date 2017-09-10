@@ -10,11 +10,6 @@ import {
 
 function roomSocket(socket) {
   socket.on("change room msg", (msg) => {
-    const state = store.getState();
-    const currentRoomId = state.room.getIn(["currentRoom", "_id"]);
-    if (currentRoomId === msg._id) {
-      store.dispatch(switchRoom(immutable.fromJS(msg)));
-    }
     store.dispatch(replaceRoomMsg(immutable.fromJS(msg)));
   });
 
@@ -33,7 +28,7 @@ function roomSocket(socket) {
     const publicRoomIndex = state.room.get("joinedRooms").findIndex(joinedRoom => joinedRoom.get("name") === "公共聊天室");
     const publicRoom = state.room.getIn(["joinedRooms", publicRoomIndex]);
     if (currentRoomId === roomId) {
-      store.dispatch(switchRoom(publicRoom));
+      store.dispatch(switchRoom(publicRoom._id));
     }
     store.dispatch(removeRoom(roomId));
   });
@@ -50,7 +45,7 @@ function roomSocket(socket) {
     const publicRoomIndex = state.room.get("joinedRooms").findIndex(joinedRoom => joinedRoom.get("name") === "公共聊天室");
     const publicRoom = state.room.getIn(["joinedRooms", publicRoomIndex]);
     if (userId === myId) {
-      store.dispatch(switchRoom(publicRoom));
+      store.dispatch(switchRoom(publicRoom._id));
       store.dispatch(removeRoom(roomId));
     } else {
       store.dispatch(leaveRoom(immutable.Map({ userId, roomId })));

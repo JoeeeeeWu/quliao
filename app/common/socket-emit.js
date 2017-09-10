@@ -4,13 +4,16 @@ import logout from "./logout";
 const socketEmit = (event, arg) => {
   return new Promise((resolve, reject) => {
     socket.emit(event, arg, (res) => {
-      if (res.error) {
-        if (res.status === 2) {
+      switch (res.status) {
+        case 0:
+          resolve(res.data);
+          break;
+        case 2:
           logout();
-        }
-        reject(res);
-      } else {
-        resolve(res);
+          reject(res);
+          break;
+        case 3:
+          reject(res);
       }
     });
   });

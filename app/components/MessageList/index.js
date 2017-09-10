@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import immutable from "immutable";
 import { Segment, Button } from "semantic-ui-react";
 import socketEmit from "../../common/socket-emit";
+import showAlert from "../../common/showAlert";
 import Message from "../Message";
 import MyMessage from "../MyMessage";
 import { addMessageList } from "../../action-creators/message";
@@ -45,9 +46,9 @@ class MessageList extends Component {
       })
       .catch((error) => {
         this.setState({
-          isLoading: true,
+          isLoading: false,
         });
-        console.log(error);
+        showAlert("获取历史消息失败！");
       });
   }
 
@@ -81,11 +82,14 @@ class MessageList extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.user,
-  messages: state.message,
-  currentRoom: state.room.get("currentRoom"),
-});
+const mapStateToProps = (state) => {
+  const currentRoomIndex = state.room.get("joinedRooms").findIndex(joinedRoom => joinedRoom.get("_id") === state.room.get("currentRoomId"));
+  return {
+    user: state.user,
+    messages: state.message,
+    currentRoom: state.room.getIn(["joinedRooms", currentRoomIndex]) || immutable.fromJS({ owner: {} }),
+  };
+};
 
 export default connect(mapStateToProps, {
   addMessageList,

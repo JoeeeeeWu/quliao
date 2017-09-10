@@ -14,6 +14,7 @@ import {
   Message,
 } from "semantic-ui-react";
 import socketEmit from "../../common/socket-emit";
+import { roomAvatarOptions } from "../../common/const";
 import {
   toggleRoomMsgForm,
 } from "../../action-creators/layout";
@@ -76,7 +77,6 @@ class RoomMsgForm extends Component {
           showMessage: true,
           result: true,
         });
-        console.log(res);
       })
       .catch((error) => {
         this.setState({
@@ -84,7 +84,6 @@ class RoomMsgForm extends Component {
           showMessage: true,
           result: false,
         });
-        console.error(error);
       });
   }
 
@@ -98,6 +97,7 @@ class RoomMsgForm extends Component {
       showMessage,
       result,
     } = this.state;
+    console.log(name);
     const {
       toggleRoomMsgForm,
     } = this.props;
@@ -121,37 +121,22 @@ class RoomMsgForm extends Component {
           <Dimmer active={isLoading} inverted>
             <Loader>正在修改中...</Loader>
           </Dimmer>
-          <Segment attached>
-            <Header as="h4">
-              聊天室名称
-            </Header>
-            <Input disabled={name === "公共聊天室"} fluid name="name" value={name} onChange={this.handleChange} />
-          </Segment>
-          <Segment attached>
-            <Header as="h4">
-              聊天室头像
-            </Header>
-            <Input fluid name="avatar" value={avatar} onChange={this.handleChange} />
-          </Segment>
-          <Segment attached>
-            <Header as="h4">
-              聊天室简介
-            </Header>
-            <Form>
-              <TextArea rows={3} name="desc" value={desc} onChange={this.handleChange} />
-            </Form>
-          </Segment>
-          <Segment attached>
-            <Header as="h4">
-              聊天室公告
-            </Header>
-            <Form>
-              <TextArea rows={3} name="declare" value={declare} onChange={this.handleChange} />
-            </Form>
-          </Segment>
-          <Segment attached>
+          <Form as={Segment}>
+            <Form.Input disabled={name === "公共聊天室"} label="聊天室名称" fluid name="name" value={name} onChange={this.handleChange} />
+            <Form.Dropdown
+              label="聊天室头像"
+              placeholder="请选择头像"
+              fluid
+              selection
+              options={roomAvatarOptions}
+              name="avatar"
+              value={avatar}
+              onChange={this.handleChange}
+            />
+            <Form.TextArea label="聊天室简介" rows={3} name="desc" value={desc} onChange={this.handleChange} />
+            <Form.TextArea label="聊天室公告" rows={3} name="declare" value={declare} onChange={this.handleChange} />
             <Button content="提交" color="teal" onClick={this.handleSubmit} />
-          </Segment>
+          </Form>
           {
             showMessage ?
               <Message
@@ -170,9 +155,12 @@ class RoomMsgForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  currentRoom: state.room.get("currentRoom"),
-});
+const mapStateToProps = (state) => {
+  const currentRoomIndex = state.room.get("joinedRooms").findIndex(joinedRoom => joinedRoom.get("_id") === state.room.get("currentRoomId"));
+  return {
+    currentRoom: state.room.getIn(["joinedRooms", currentRoomIndex]) || immutable.fromJS({ owner: {} }),
+  };
+};
 
 export default connect(mapStateToProps, {
   toggleRoomMsgForm,

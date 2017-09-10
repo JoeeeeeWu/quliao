@@ -11,6 +11,7 @@ import {
   Loader,
 } from "semantic-ui-react";
 import socketEmit from "../../common/socket-emit";
+import showAlert from "../../common/showAlert";
 import styles from "./join-room-panel.less";
 import RoomCard from "../RoomCard";
 import { toggleSearchRoom } from "../../action-creators/layout";
@@ -43,15 +44,17 @@ class JoinRoomPanel extends Component {
         name,
       },
     })
-      .then(res => this.setState({
-        rooms: immutable.fromJS(res),
-        isLoading: false,
-      }))
+      .then((res) => {
+        this.setState({
+          rooms: immutable.fromJS(res),
+          isLoading: false,
+        });
+      })
       .catch((error) => {
+        showAlert("搜索聊天室遇到点问题！");
         this.setState({
           isLoading: false,
         });
-        console.error(error)
       });
   }
 

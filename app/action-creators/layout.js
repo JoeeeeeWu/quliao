@@ -8,6 +8,8 @@ import {
   TOGGLE_SEARCH_ROOM,
   INIT_STATE,
   TOGGLE_ONLINE,
+  TOGGLE_ALERT,
+  CHANGE_ALERT_TEXT,
 } from "../action-types";
 
 export const toggleRoomList = payload => ({
@@ -52,5 +54,15 @@ export const initState = payload => ({
 
 export const toggleOnline = payload => ({
   type: TOGGLE_ONLINE,
+  payload,
+});
+
+export const toggleAlert = payload => ({
+  type: TOGGLE_ALERT,
+  payload,
+});
+
+export const changeAlertText = payload => ({
+  type: CHANGE_ALERT_TEXT,
   payload,
 });

@@ -7,20 +7,14 @@ import {
   Button,
   Icon,
   Form,
-  Input,
-  TextArea,
   Dimmer,
   Loader,
   Message,
 } from "semantic-ui-react";
 import socketEmit from "../../common/socket-emit";
-import {
-  toggleMyInfoForm,
-} from "../../action-creators/layout";
-import {
-  initMyInfo,
-} from "../../action-creators/user";
-
+import { userAvatarOptions } from "../../common/const";
+import { toggleMyInfoForm } from "../../action-creators/layout";
+import { initMyInfo } from "../../action-creators/user";
 import styles from "./my-info-form.less";
 
 class MyInfoForm extends Component {
@@ -87,7 +81,6 @@ class MyInfoForm extends Component {
           showMessage: true,
           result: false,
         });
-        console.error(error);
       });
   }
 
@@ -125,41 +118,27 @@ class MyInfoForm extends Component {
           <Dimmer active={isLoading} inverted>
             <Loader>正在修改中...</Loader>
           </Dimmer>
-          <Segment attached>
-            <Header as="h4">
-              昵称
-            </Header>
-            <Input fluid name="name" value={name} onChange={this.handleChange} />
-          </Segment>
-          <Segment attached>
-            <Header as="h4">
-              头像
-            </Header>
-            <Input fluid name="avatar" value={avatar} onChange={this.handleChange} />
-          </Segment>
-          <Segment attached>
-            <Header as="h4">
-              所在城市
-            </Header>
-            <Input fluid name="city" value={city} onChange={this.handleChange} />
-          </Segment>
-          <Segment attached>
-            <Header as="h4">
-              签名
-            </Header>
-            <Form>
-              <TextArea rows={3} name="motto" value={motto} onChange={this.handleChange} />
-            </Form>
-          </Segment>
-          <Segment attached>
+          <Form as={Segment}>
+            <Form.Input label="昵称" fluid name="name" value={name} onChange={this.handleChange} />
+            <Form.Dropdown
+              label="头像"
+              placeholder="请选择头像"
+              fluid
+              selection
+              options={userAvatarOptions}
+              name="avatar"
+              value={avatar}
+              onChange={this.handleChange}
+            />
+            <Form.Input label="所在城市" fluid name="city" value={city} onChange={this.handleChange} />
+            <Form.TextArea label="签名" rows={3} name="motto" value={motto} onChange={this.handleChange} />
             <Button content="提交" color="teal" onClick={this.handleSubmit} />
-          </Segment>
+          </Form>
           {
             showMessage ?
               <Message
                 positive={result}
                 negative={!result}
-                attached
                 icon={result ? "smile" : "frown"}
                 header="修改结果"
                 content={result ? "我的资料修改成功！" : "资料修改失败，请重新尝试"}

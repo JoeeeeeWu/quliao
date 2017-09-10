@@ -16,17 +16,14 @@ import RoomMsgForm from "../../components/RoomMsgForm";
 import CreateRoomForm from "../../components/CreateRoomForm";
 import JoinRoomPanel from "../../components/JoinRoomPanel";
 
-import {
-  initMyInfo,
-} from "../../action-creators/user";
+import { initMyInfo } from "../../action-creators/user";
 import {
   initJoinedRooms,
   switchRoom,
 } from "../../action-creators/room";
-import {
-  initMessages,
-} from "../../action-creators/message";
+import { initMessages } from "../../action-creators/message";
 import socketEmit from "../../common/socket-emit";
+import showAlert from "../../common/showAlert";
 import styles from "./chat.less";
 
 class Chat extends Component {
@@ -43,7 +40,6 @@ class Chat extends Component {
       token,
     })
       .then(res => {
-        console.log(res);
         const {
           avatar,
           email,
@@ -65,18 +61,16 @@ class Chat extends Component {
         };
         initMyInfo(immutable.fromJS(user));
         initJoinedRooms(immutable.fromJS(joinedRooms));
-        let messages = immutable.Map();
         joinedRooms.forEach(({ _id: roomId }) => {
-          messages = messages.set(roomId, immutable.List());
+          initMessages(roomId);
         });
-        initMessages(messages);
         joinedRooms.forEach((joinedRoom) => {
           if (joinedRoom.name === "公共聊天室") {
-            switchRoom(immutable.fromJS(joinedRoom));
+            switchRoom(joinedRoom._id);
           }
         });
       })
-      .catch(error => console.log(error));
+      .catch(error => showAlert("获取个人信息失败！"));
   }
 
   render() {
@@ -89,6 +83,8 @@ class Chat extends Component {
       showRoomMsgForm,
       showCreateRoomForm,
       showSearchRoom,
+      showAlert,
+      alertText,
     } = this.props;
     return (
       <Container>
@@ -151,6 +147,19 @@ class Chat extends Component {
           >
             <RoomMsgForm />
           </Sidebar>
+          <Sidebar
+            as={Segment}
+            textAlign="center"
+            inverted
+            color="violet"
+            animation="overlay"
+            width="wide"
+            direction="top"
+            visible={showAlert}
+            className={styles.alertSidebar}
+          >
+            <p>{alertText}</p>
+          </Sidebar>
           <Sidebar.Pusher>
             <ChatPanel />
           </Sidebar.Pusher>
@@ -163,7 +172,6 @@ class Chat extends Component {
 const mapStateToProps = state => ({
   user: state.user,
   joinedRooms: state.room.get("joinedRooms"),
-  currentRoom: state.room.get("currentRoom"),
   showRoomList: state.layout.get("showRoomList"),
   showCurrentRoomMsg: state.layout.get("showCurrentRoomMsg"),
   showMyInfo: state.layout.get("showMyInfo"),
@@ -171,6 +179,8 @@ const mapStateToProps = state => ({
   showRoomMsgForm: state.layout.get("showRoomMsgForm"),
   showCreateRoomForm: state.layout.get("showCreateRoomForm"),
   showSearchRoom: state.layout.get("showSearchRoom"),
+  showAlert: state.layout.get("showAlert"),
+  alertText: state.layout.get("alertText"),
 });
 
 

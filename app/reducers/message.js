@@ -12,7 +12,7 @@ const INITIAL_STATE = immutable.Map();
 const message = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case INIT_MESSAGES:
-      return action.payload;
+      return state.set(action.payload, immutable.List());
     case ADD_MESSAGE:
       return state.update(action.payload.get("room"), messages => messages.push(action.payload));
     case ADD_MISSING_MESSAGE_LIST:

@@ -1,11 +1,11 @@
 import immutable from "immutable";
 import store from "../store";
 import socketEmit from "../common/socket-emit";
+import showAlert from "../common/showAlert";
 import { initJoinedRooms } from "../action-creators/room";
 import { toggleOnline } from "../action-creators/layout";
-import {
-  addMissingMessageList,
-} from "../action-creators/message";
+import { addMissingMessageList } from "../action-creators/message";
+
 let disconnectTime;
 
 function connectSocket(socket) {
@@ -17,6 +17,7 @@ function connectSocket(socket) {
   socket.on("disconnect", () => {
     console.log("disconnect");
     store.dispatch(toggleOnline(false));
+    showAlert("通讯连接已断开！");
     disconnectTime = Date.now();
   });
 
@@ -24,6 +25,7 @@ function connectSocket(socket) {
     console.log("reconnect");
     const token = localStorage.getItem("token");
     store.dispatch(toggleOnline(true));
+    showAlert("通讯连接已重新连接！");    
     socketEmit("myInfo", {
       token,
     })
@@ -41,13 +43,13 @@ function connectSocket(socket) {
             .then((response) => {
               store.dispatch(addMissingMessageList(immutable.fromJS({
                 roomId,
-                messageList: response,
+                messageList: response.data,
               })));
             })
-            .catch(error => console.log(error));
+            .catch(error => showAlert("获取错失信息失败！"));
         });
       })
-      .catch(error => console.log(error));
+      .catch(error => showAlert("获取个人信息失败！"));
   });
 }
 
