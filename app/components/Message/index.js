@@ -9,9 +9,7 @@ import styles from "./message.less";
 
 class Message extends PureComponent {
   render() {
-    const {
-      message,
-    } = this.props;
+    const { message } = this.props;
     return (
       <div className={styles.container}>
         <Image className={styles.avatar} size="mini" shape="rounded" src={message.getIn(["from", "avatar"])} />

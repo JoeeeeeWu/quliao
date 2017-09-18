@@ -10,12 +10,12 @@ import {
   Dimmer,
   Loader,
   Message,
+  Input,
+  Label,
 } from "semantic-ui-react";
 import socketEmit from "../../common/socket-emit";
-import { roomAvatarOptions } from "../../common/const";
-import {
-  toggleRoomMsgForm,
-} from "../../action-creators/layout";
+import userAvatarOptions from "../../common/const";
+import { toggleRoomMsgForm } from "../../action-creators/layout";
 import styles from "./room-msg-form.less";
 
 class RoomMsgForm extends PureComponent {
@@ -29,6 +29,8 @@ class RoomMsgForm extends PureComponent {
     isLoading: false,
     showMessage: false,
     result: true,
+
+    showNameLabel: false,
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -51,9 +53,18 @@ class RoomMsgForm extends PureComponent {
       desc,
       declare,
     } = this.state;
-    const {
-      currentRoom,
-    } = this.props;
+    if (name.trim().length === 0) {
+      this.setState({
+        showNameLabel: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          showNameLabel: false,
+        });
+      }, 5000);
+      return;
+    }
+    const { currentRoom } = this.props;
     const token = localStorage.getItem("token");
     this.setState({
       isLoading: true,
@@ -75,6 +86,11 @@ class RoomMsgForm extends PureComponent {
           showMessage: true,
           result: true,
         });
+        setTimeout(() => {
+          this.setState({
+            showMessage: false,
+          });
+        }, 5000);
       })
       .catch((error) => {
         this.setState({
@@ -82,6 +98,11 @@ class RoomMsgForm extends PureComponent {
           showMessage: true,
           result: false,
         });
+        setTimeout(() => {
+          this.setState({
+            showMessage: false,
+          });
+        }, 5000);
       });
   }
 
@@ -94,10 +115,9 @@ class RoomMsgForm extends PureComponent {
       isLoading,
       showMessage,
       result,
+      showNameLabel,
     } = this.state;
-    const {
-      toggleRoomMsgForm,
-    } = this.props;
+    const { toggleRoomMsgForm } = this.props;
     return (
       <Segment className={styles.container} basic>
         <Segment className={styles.topbar} basic>
@@ -119,13 +139,17 @@ class RoomMsgForm extends PureComponent {
             <Loader>正在修改中...</Loader>
           </Dimmer>
           <Form as={Segment}>
-            <Form.Input disabled={name === "公共聊天室"} label="聊天室名称" fluid name="name" value={name} onChange={this.handleChange} />
+            <Form.Field>
+              <label>聊天室名称</label>
+              <Input disabled={name === "公共聊天室"} fluid name="name" value={name} onChange={this.handleChange} />
+              <Label basic color="red" pointing className={showNameLabel ? styles.showNameLabel : styles.hideNameLabel}>聊天室名称不能为空！</Label>
+            </Form.Field>
             <Form.Dropdown
               label="聊天室头像"
               placeholder="请选择头像"
               fluid
               selection
-              options={roomAvatarOptions}
+              options={userAvatarOptions}
               name="avatar"
               value={avatar}
               onChange={this.handleChange}
@@ -159,6 +183,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  toggleRoomMsgForm,
-})(RoomMsgForm);
+export default connect(mapStateToProps, { toggleRoomMsgForm })(RoomMsgForm);

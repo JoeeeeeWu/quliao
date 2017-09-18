@@ -8,9 +8,7 @@ import { toggleSearchRoom } from "../../action-creators/layout";
 
 class JoinRoom extends PureComponent {
   render() {
-    const {
-      toggleSearchRoom,
-    } = this.props;
+    const { toggleSearchRoom } = this.props;
     return (
       <Segment>
         <Button content="加入聊天室" icon="talk" color="teal" labelPosition="left" onClick={toggleSearchRoom} />
@@ -19,6 +17,4 @@ class JoinRoom extends PureComponent {
   }
 }
 
-export default connect(null, {
-  toggleSearchRoom,
-})(JoinRoom);
+export default connect(null, { toggleSearchRoom })(JoinRoom);

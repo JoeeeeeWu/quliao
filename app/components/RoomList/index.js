@@ -10,9 +10,7 @@ import styles from "./room-list.less";
 class RoomList extends PureComponent {
 
   render() {
-    const {
-      joinedRooms,
-    } = this.props;
+    const { joinedRooms } = this.props;
     return (
       <Segment className={styles.container}>
         {

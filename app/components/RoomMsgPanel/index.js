@@ -14,10 +14,7 @@ import {
 import immutable from "immutable";
 import moment from "moment";
 import socketEmit from "../../common/socket-emit";
-import {
-  toggleCurrentRoomMsg,
-  toggleRoomMsgForm,
-} from "../../action-creators/layout";
+import { toggleCurrentRoomMsg, toggleRoomMsgForm } from "../../action-creators/layout";
 
 import styles from "./room-msg-panel.less";
 
@@ -73,7 +70,6 @@ class RoomMsgPanel extends PureComponent {
           isLoading: false,
         });
         toggleCurrentRoomMsg();
-        console.log(res);
       })
       .catch((error) => {
         this.setState({

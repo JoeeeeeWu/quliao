@@ -7,20 +7,17 @@ import {
   Button,
   Icon,
   Form,
-  Input,
-  TextArea,
   Dimmer,
   Loader,
   Message,
+  Input,
+  Label,
+  Dropdown,
 } from "semantic-ui-react";
 import socketEmit from "../../common/socket-emit";
-import { roomAvatarOptions } from "../../common/const";
-import {
-  toggleCreateRoomForm,
-} from "../../action-creators/layout";
-import {
-  addRoomMsg,
-} from "../../action-creators/room";
+import userAvatarOptions from "../../common/const";
+import { toggleCreateRoomForm } from "../../action-creators/layout";
+import { addRoomMsg } from "../../action-creators/room";
 import { initMessages } from "../../action-creators/message";
 import styles from "./create-room-form.less";
 
@@ -35,6 +32,9 @@ class CreateRoomForm extends PureComponent {
     isLoading: false,
     showMessage: false,
     result: true,
+
+    showNameLabel: false,
+    showAvatarLabel: false,
   }
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
@@ -46,10 +46,29 @@ class CreateRoomForm extends PureComponent {
       desc,
       declare,
     } = this.state;
-    const {
-      addRoomMsg,
-      initMessages,
-    } = this.props;
+    if (name.trim().length === 0) {
+      this.setState({
+        showNameLabel: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          showNameLabel: false,
+        });
+      }, 5000);
+      return;
+    }
+    if (!avatar) {
+      this.setState({
+        showAvatarLabel: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          showAvatarLabel: false,
+        });
+      }, 5000);
+      return;
+    }
+    const { addRoomMsg, initMessages } = this.props;
     const token = localStorage.getItem("token");
     this.setState({
       isLoading: true,
@@ -71,6 +90,11 @@ class CreateRoomForm extends PureComponent {
           showMessage: true,
           result: true,
         });
+        setTimeout(() => {
+          this.setState({
+            showMessage: false,
+          });
+        }, 5000);
       })
       .catch((error) => {
         this.setState({
@@ -78,6 +102,11 @@ class CreateRoomForm extends PureComponent {
           showMessage: true,
           result: false,
         });
+        setTimeout(() => {
+          this.setState({
+            showMessage: false,
+          });
+        }, 5000);
       });
   }
 
@@ -90,6 +119,8 @@ class CreateRoomForm extends PureComponent {
       isLoading,
       showMessage,
       result,
+      showNameLabel,
+      showAvatarLabel,
     } = this.state;
     const {
       toggleCreateRoomForm,
@@ -115,17 +146,24 @@ class CreateRoomForm extends PureComponent {
             <Loader>正在创建聊天室中...</Loader>
           </Dimmer>
           <Form as={Segment}>
-            <Form.Input label="聊天室名称" fluid name="name" value={name} onChange={this.handleChange} />
-            <Form.Dropdown
-              label="聊天室头像"
-              placeholder="请选择头像"
-              fluid
-              selection
-              options={roomAvatarOptions}
-              name="avatar"
-              value={avatar}
-              onChange={this.handleChange}
-            />
+            <Form.Field>
+              <label>聊天室名称</label>
+              <Input fluid name="name" value={name} onChange={this.handleChange} />
+              <Label basic color="red" pointing className={showNameLabel ? styles.showNameLabel : styles.hideNameLabel}>聊天室头像不能为空！</Label>
+            </Form.Field>
+            <Form.Field>
+              <label>聊天室头像</label>
+              <Dropdown
+                placeholder="请选择头像"
+                fluid
+                selection
+                options={userAvatarOptions}
+                name="avatar"
+                value={avatar}
+                onChange={this.handleChange}
+              />
+              <Label basic color="red" pointing className={showAvatarLabel ? styles.showAvatarLabel : styles.hideAvatarLabel}>聊天室头像不能为空！</Label>
+            </Form.Field>
             <Form.TextArea label="聊天室简介" rows={3} name="desc" value={desc} onChange={this.handleChange} />
             <Form.TextArea label="聊天室公告" rows={3} name="declare" value={declare} onChange={this.handleChange} />
             <Button content="提交" color="teal" onClick={this.handleSubmit} />
@@ -138,7 +176,7 @@ class CreateRoomForm extends PureComponent {
                 attached
                 icon={result ? "smile" : "frown"}
                 header="聊天室创建结果"
-                content={result ? "聊天室创建成功！" : "聊天室创建失败，请重新尝试"}
+                content={result ? "聊天室创建成功！" : "聊天室创建失败，可能是聊天室名字已存在或者网络不佳！"}
               /> :
               null
           }

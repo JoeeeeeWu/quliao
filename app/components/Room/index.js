@@ -8,10 +8,7 @@ import styles from "./room.less";
 class Room extends PureComponent {
 
   handleClick=() => {
-    const {
-      joinedRoom,
-      switchRoom,
-    } = this.props;
+    const { joinedRoom, switchRoom } = this.props;
     switchRoom(joinedRoom.get("_id"));
   }
 
@@ -53,6 +50,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  switchRoom,
-})(Room);
+export default connect(mapStateToProps, { switchRoom })(Room);

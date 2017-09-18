@@ -22,12 +22,8 @@ class SendInput extends PureComponent {
   }
 
   handleSend=() => {
-    const {
-      content,
-    } = this.state;
-    const {
-      currentRoom,
-    } = this.props;
+    const { content } = this.state;
+    const { currentRoom } = this.props;
     const roomId = currentRoom.get("_id");
     const token = localStorage.getItem("token");
     socketEmit("new message", {
@@ -41,6 +37,9 @@ class SendInput extends PureComponent {
       .catch((error) => {
         showAlert("发送消息失败！");
       });
+    this.setState({
+      content: "",
+    });
   }
 
   render() {

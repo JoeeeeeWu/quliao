@@ -7,10 +7,8 @@ import {
 } from "semantic-ui-react";
 import immutable from "immutable";
 import socketEmit from "../../common/socket-emit";
-import {
-  addRoomMsg,
-  addRoomMember,
-} from "../../action-creators/room";
+import { addRoomMsg, addRoomMember } from "../../action-creators/room";
+import { initMessages } from "../../action-creators/message";
 
 class RoomCard extends PureComponent {
 
@@ -19,6 +17,7 @@ class RoomCard extends PureComponent {
       room,
       addRoomMsg,
       addRoomMember,
+      initMessages,
     } = this.props;
     const token = localStorage.getItem("token");
     const roomId = room.get("_id");
@@ -30,17 +29,14 @@ class RoomCard extends PureComponent {
     })
       .then((res) => {
         addRoomMsg(room);
+        initMessages(room.get("_id"));
         addRoomMember(immutable.fromJS(res));
-        console.log(res);
       })
       .catch(error => console.log(error));
   }
 
   render() {
-    const {
-      room,
-      joinedRooms,
-    } = this.props;
+    const { room, joinedRooms } = this.props;
     const isJoined = joinedRooms.some(joinedRoom => joinedRoom.get("_id") === room.get("_id"));
     return (
       <Card>
@@ -73,4 +69,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   addRoomMsg,
   addRoomMember,
+  initMessages,
 })(RoomCard);

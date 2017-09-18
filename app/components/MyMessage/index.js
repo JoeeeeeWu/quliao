@@ -9,9 +9,7 @@ import styles from "./my-message.less";
 
 class MyMessage extends PureComponent {
   render() {
-    const {
-      message,
-    } = this.props;
+    const { message } = this.props;
     return (
       <div className={styles.container}>
         <div className={styles.detail}>

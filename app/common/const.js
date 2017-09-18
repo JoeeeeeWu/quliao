@@ -1,4 +1,4 @@
-export const userAvatarOptions = [
+const userAvatarOptions = [
   {
     text: "钢铁侠",
     value: "http://touxiang.yeree.com/pics/13/963208.jpg",
@@ -46,30 +46,4 @@ export const userAvatarOptions = [
   },
 ];
 
-export const roomAvatarOptions = [
-  {
-    text: "聊天室头像1",
-    value: "http://touxiang.yeree.com/pics/28/963211.jpg",
-    image: { avatar: true, src: "http://touxiang.yeree.com/pics/28/963211.jpg" },
-  },
-  {
-    text: "聊天室头像2",
-    value: "http://touxiang.yeree.com/pics/d9/963236.jpg",
-    image: { avatar: true, src: "http://touxiang.yeree.com/pics/d9/963236.jpg" },
-  },
-  {
-    text: "聊天室头像3",
-    value: "http://touxiang.yeree.com/pics/c1/958440.jpg",
-    image: { avatar: true, src: "http://touxiang.yeree.com/pics/c1/958440.jpg" },
-  },
-  {
-    text: "聊天室头像4",
-    value: "http://touxiang.yeree.com/pics/69/2409540.jpg",
-    image: { avatar: true, src: "http://touxiang.yeree.com/pics/69/2409540.jpg" },
-  },
-  {
-    text: "聊天室头像5",
-    value: "http://touxiang.yeree.com/pics/6c/2409123.jpg",
-    image: { avatar: true, src: "http://touxiang.yeree.com/pics/6c/2409123.jpg" },
-  }
-];
+export default userAvatarOptions;

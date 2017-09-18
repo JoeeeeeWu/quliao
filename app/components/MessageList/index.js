@@ -53,9 +53,7 @@ class MessageList extends PureComponent {
   }
 
   render() {
-    const {
-      isLoading,
-    } = this.state;
+    const { isLoading } = this.state;
     const {
       user,
       messages,
@@ -91,7 +89,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  addMessageList,
-})(MessageList);
+export default connect(mapStateToProps, { addMessageList })(MessageList);
 

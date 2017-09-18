@@ -64,9 +64,7 @@ class JoinRoomPanel extends PureComponent {
       rooms,
       isLoading,
     } = this.state;
-    const {
-      toggleSearchRoom,
-    } = this.props;
+    const { toggleSearchRoom } = this.props;
     return (
       <Segment className={styles.container} basic>
         <Segment className={styles.topbar} basic>
@@ -112,6 +110,4 @@ class JoinRoomPanel extends PureComponent {
   }
 }
 
-export default connect(null, {
-  toggleSearchRoom,
-})(JoinRoomPanel);
+export default connect(null, { toggleSearchRoom })(JoinRoomPanel);

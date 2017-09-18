@@ -17,10 +17,7 @@ import CreateRoomForm from "../../components/CreateRoomForm";
 import JoinRoomPanel from "../../components/JoinRoomPanel";
 
 import { initMyInfo } from "../../action-creators/user";
-import {
-  initJoinedRooms,
-  switchRoom,
-} from "../../action-creators/room";
+import { initJoinedRooms, switchRoom } from "../../action-creators/room";
 import { initMessages } from "../../action-creators/message";
 import socketEmit from "../../common/socket-emit";
 import showAlert from "../../common/showAlert";
@@ -39,7 +36,7 @@ class Chat extends PureComponent {
     socketEmit("myInfo", {
       token,
     })
-      .then(res => {
+      .then((res) => {
         const {
           avatar,
           email,

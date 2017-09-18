@@ -10,9 +10,11 @@ import {
   Dimmer,
   Loader,
   Message,
+  Input,
+  Label,
 } from "semantic-ui-react";
 import socketEmit from "../../common/socket-emit";
-import { userAvatarOptions } from "../../common/const";
+import userAvatarOptions from "../../common/const";
 import { toggleMyInfoForm } from "../../action-creators/layout";
 import { initMyInfo } from "../../action-creators/user";
 import styles from "./my-info-form.less";
@@ -29,6 +31,8 @@ class MyInfoForm extends PureComponent {
 
     showMessage: false,
     result: true,
+
+    showNameLabel: false,
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -51,9 +55,18 @@ class MyInfoForm extends PureComponent {
       city,
       motto,
     } = this.state;
-    const {
-      initMyInfo,
-    } = this.props;
+    if (name.trim().length === 0) {
+      this.setState({
+        showNameLabel: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          showNameLabel: false,
+        });
+      }, 5000);
+      return;
+    }
+    const { initMyInfo } = this.props;
     const token = localStorage.getItem("token");
     this.setState({
       isLoading: true,
@@ -74,6 +87,11 @@ class MyInfoForm extends PureComponent {
           showMessage: true,
           result: true,
         });
+        setTimeout(() => {
+          this.setState({
+            showMessage: false,
+          });
+        }, 5000);
       })
       .catch((error) => {
         this.setState({
@@ -81,6 +99,11 @@ class MyInfoForm extends PureComponent {
           showMessage: true,
           result: false,
         });
+        setTimeout(() => {
+          this.setState({
+            showMessage: false,
+          });
+        }, 5000);
       });
   }
 
@@ -93,11 +116,9 @@ class MyInfoForm extends PureComponent {
       isLoading,
       showMessage,
       result,
+      showNameLabel,
     } = this.state;
-    const {
-      user,
-      toggleMyInfoForm,
-    } = this.props;
+    const { user, toggleMyInfoForm } = this.props;
     return (
       <Segment className={styles.container} basic>
         <Segment className={styles.topbar} basic>
@@ -119,7 +140,11 @@ class MyInfoForm extends PureComponent {
             <Loader>正在修改中...</Loader>
           </Dimmer>
           <Form as={Segment}>
-            <Form.Input label="昵称" fluid name="name" value={name} onChange={this.handleChange} />
+            <Form.Field>
+              <label>昵称</label>
+              <Input fluid name="name" value={name} onChange={this.handleChange} />
+              <Label basic color="red" pointing className={showNameLabel ? styles.showNameLabel : styles.hideNameLabel}>昵称不能为空！</Label>
+            </Form.Field>
             <Form.Dropdown
               label="头像"
               placeholder="请选择头像"

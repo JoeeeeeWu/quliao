@@ -8,10 +8,7 @@ import {
   Button,
 } from "semantic-ui-react";
 import immutable from "immutable";
-import {
-  toggleRoomList,
-  toggleCurrentRoomMsg,
-} from "../../action-creators/layout";
+import { toggleRoomList, toggleCurrentRoomMsg } from "../../action-creators/layout";
 
 import styles from "./chat-header.less";
 

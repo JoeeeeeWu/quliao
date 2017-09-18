@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import {
   Segment,
 } from "semantic-ui-react";
@@ -8,16 +8,14 @@ import ChatHeader from "../ChatHeader";
 
 import styles from "./chat-panel.less";
 
-class ChatPanel extends PureComponent {
-  render() {
-    return (
-      <Segment.Group className={styles.container}>
-        <ChatHeader />
-        <MessageList />
-        <SendInput />
-      </Segment.Group>
-    );
-  }
+function ChatPanel() {
+  return (
+    <Segment.Group className={styles.container}>
+      <ChatHeader />
+      <MessageList />
+      <SendInput />
+    </Segment.Group>
+  );
 }
 
 export default ChatPanel;

@@ -7,10 +7,7 @@ import {
   Button,
   Icon,
 } from "semantic-ui-react";
-import {
-  toggleRoomList,
-  toggleMyInfo,
-} from "../../action-creators/layout";
+import { toggleRoomList, toggleMyInfo } from "../../action-creators/layout";
 
 import styles from "./my.less";
 
