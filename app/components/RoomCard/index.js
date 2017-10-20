@@ -6,6 +6,7 @@ import {
   Image,
 } from "semantic-ui-react";
 import immutable from "immutable";
+import moment from "moment";
 import socketEmit from "../../common/socket-emit";
 import { addRoomMsg, addRoomMember } from "../../action-creators/room";
 import { initMessages } from "../../action-creators/message";
@@ -46,7 +47,7 @@ class RoomCard extends PureComponent {
             {room.get("name")}
           </Card.Header>
           <Card.Meta>
-            Friends Elliot
+            {moment(room.getIn(["meta", "createAt"])).format("YYYY-MM-DD HH:mm")}
           </Card.Meta>
           <Card.Description>
             {room.get("desc")}

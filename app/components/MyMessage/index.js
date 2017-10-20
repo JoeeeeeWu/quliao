@@ -3,6 +3,8 @@ import {
   Image,
   Segment,
   Header,
+  Popup,
+  Card,
 } from "semantic-ui-react";
 import moment from "moment";
 import styles from "./my-message.less";
@@ -10,6 +12,22 @@ import styles from "./my-message.less";
 class MyMessage extends PureComponent {
   render() {
     const { message } = this.props;
+    const popupContent = (
+      <Card>
+        <Card.Content>
+          <Image floated='right' size='mini' src={message.getIn(["from", "avatar"])} />
+          <Card.Header>
+            {message.getIn(["from", "name"])}
+          </Card.Header>
+          <Card.Meta>
+            {message.getIn(["from", "email"])}
+          </Card.Meta>
+          <Card.Description>
+            {message.getIn(["from", "motto"])}
+          </Card.Description>
+        </Card.Content>
+      </Card>
+    );
     return (
       <div className={styles.container}>
         <div className={styles.detail}>
@@ -23,7 +41,13 @@ class MyMessage extends PureComponent {
             {message.get("content")}
           </Segment>
         </div>
-        <Image className={styles.avatar} size="mini" shape="rounded" src={message.getIn(["from", "avatar"])} />
+        <Popup
+          trigger={<Image className={styles.avatar} size="mini" shape="rounded" src={message.getIn(["from", "avatar"])} />}
+          content={popupContent}
+          on='click'
+          hideOnScroll
+          position='bottom right'
+        />
       </div>
     );
   }

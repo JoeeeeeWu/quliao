@@ -162,7 +162,14 @@ class CreateRoomForm extends PureComponent {
                 value={avatar}
                 onChange={this.handleChange}
               />
-              <Label basic color="red" pointing className={showAvatarLabel ? styles.showAvatarLabel : styles.hideAvatarLabel}>聊天室头像不能为空！</Label>
+              <Label
+                basic
+                color="red"
+                pointing
+                className={showAvatarLabel ? styles.showAvatarLabel : styles.hideAvatarLabel}
+              >
+                聊天室头像不能为空！
+              </Label>
             </Form.Field>
             <Form.TextArea label="聊天室简介" rows={3} name="desc" value={desc} onChange={this.handleChange} />
             <Form.TextArea label="聊天室公告" rows={3} name="declare" value={declare} onChange={this.handleChange} />

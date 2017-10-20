@@ -9,6 +9,7 @@ import {
   Input,
   Dimmer,
   Loader,
+  Card,
 } from "semantic-ui-react";
 import socketEmit from "../../common/socket-emit";
 import showAlert from "../../common/showAlert";
@@ -101,9 +102,11 @@ class JoinRoomPanel extends PureComponent {
           <Dimmer active={isLoading} inverted>
             <Loader>正在搜索中...</Loader>
           </Dimmer>
-          {
-            rooms.map(room => <RoomCard key={room.get("_id")} room={room} />)
-          }
+          <Card.Group>
+            {
+              rooms.map(room => <RoomCard key={room.get("_id")} room={room} />)
+            }
+          </Card.Group>
         </Dimmer.Dimmable>
       </Segment>
     );

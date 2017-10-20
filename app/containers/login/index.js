@@ -151,6 +151,7 @@ class Login extends PureComponent {
   }
 
   render() {
+    console.log(this.props);
     const {
       loginEmail,
       loginPwd,
@@ -290,4 +291,4 @@ class Login extends PureComponent {
   }
 }
 
-export default withRouter(Login);
+export default Login;

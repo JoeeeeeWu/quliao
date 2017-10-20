@@ -7,27 +7,23 @@ import history from "./history";
 import Bundle from "./bundle";
 
 import Login from "bundle-loader?lazy&name=login!../containers/Login";
-import Chat from "bundle-loader?lazy&name=login!../containers/Chat";
+import Chat from "bundle-loader?lazy&name=chat!../containers/Chat";
 
-const createComponent = component => () => (
+const createComponent = component => props => (
   <Bundle load={component}>
     {
-      Comp => <Comp />
+      Comp => <Comp {...props} />
     }
   </Bundle>
 );
 
-class Routes extends Component {
-  render() {
-    return (
-      <Router history={history}>
-        <div>
-          <Route path="/login" exact component={createComponent(Login)} />
-          <Route path="/" exact component={createComponent(Chat)} />
-        </div>
-      </Router>
-    );
-  }
-}
+const Routes = () => (
+  <Router history={history}>
+    <div>
+      <Route path="/login" exact component={createComponent(Login)} />
+      <Route path="/" exact component={createComponent(Chat)} />
+    </div>
+  </Router>
+);
 
 export default Routes;
