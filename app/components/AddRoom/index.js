@@ -1,14 +1,15 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   Segment,
   Button,
-  Icon,
 } from "semantic-ui-react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 
 import { toggleCreateRoomForm } from "../../action-creators/layout";
 
-class AddRoom extends PureComponent {
+@immutableRenderDecorator
+class AddRoom extends Component {
   render() {
     const { toggleCreateRoomForm } = this.props;
     return (

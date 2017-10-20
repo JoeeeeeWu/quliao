@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import immutable from "immutable";
 import {
@@ -18,7 +19,8 @@ import userAvatarOptions from "../../common/const";
 import { toggleRoomMsgForm } from "../../action-creators/layout";
 import styles from "./room-msg-form.less";
 
-class RoomMsgForm extends PureComponent {
+@immutableRenderDecorator
+class RoomMsgForm extends Component {
 
   state = {
     name: "",

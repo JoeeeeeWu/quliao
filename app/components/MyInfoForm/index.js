@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import immutable from "immutable";
 import {
@@ -19,7 +20,8 @@ import { toggleMyInfoForm } from "../../action-creators/layout";
 import { initMyInfo } from "../../action-creators/user";
 import styles from "./my-info-form.less";
 
-class MyInfoForm extends PureComponent {
+@immutableRenderDecorator
+class MyInfoForm extends Component {
 
   state = {
     name: "",

@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import {
   Header,
@@ -12,7 +13,8 @@ import { toggleRoomList, toggleCurrentRoomMsg } from "../../action-creators/layo
 
 import styles from "./chat-header.less";
 
-class ChatHeader extends PureComponent {
+@immutableRenderDecorator
+class ChatHeader extends Component {
   render() {
     const {
       currentRoom,

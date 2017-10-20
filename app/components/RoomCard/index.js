@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import {
   Card,
@@ -11,8 +12,8 @@ import socketEmit from "../../common/socket-emit";
 import { addRoomMsg, addRoomMember } from "../../action-creators/room";
 import { initMessages } from "../../action-creators/message";
 
-class RoomCard extends PureComponent {
-
+@immutableRenderDecorator
+class RoomCard extends Component {
   joinRoom = () => {
     const {
       room,

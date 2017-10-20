@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import {
   Button,
   Form,
@@ -14,7 +15,8 @@ import axios from "axios";
 import styles from "./login.less";
 import { apiBaseUrl } from "../../config";
 
-class Login extends PureComponent {
+@immutableRenderDecorator
+class Login extends Component {
   state={
     loginEmail: "",
     loginPwd: "",

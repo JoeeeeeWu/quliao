@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import immutable from "immutable";
 import {
@@ -23,8 +24,8 @@ import socketEmit from "../../common/socket-emit";
 import showAlert from "../../common/showAlert";
 import styles from "./chat.less";
 
-class Chat extends PureComponent {
-
+@immutableRenderDecorator
+class Chat extends Component {
   componentDidMount=() => {
     const {
       initMyInfo,

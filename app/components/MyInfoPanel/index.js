@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import {
@@ -18,7 +19,8 @@ import {
 import logout from "../../common/logout";
 import styles from "./my-info-panel.less";
 
-class MyInfoPanel extends PureComponent {
+@immutableRenderDecorator
+class MyInfoPanel extends Component {
 
   state = {
     showLogoutModal: false,

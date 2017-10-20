@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import immutable from "immutable";
 import {
@@ -17,7 +18,8 @@ import styles from "./join-room-panel.less";
 import RoomCard from "../RoomCard";
 import { toggleSearchRoom } from "../../action-creators/layout";
 
-class JoinRoomPanel extends PureComponent {
+@immutableRenderDecorator
+class JoinRoomPanel extends Component {
 
   state = {
     name: "",

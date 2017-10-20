@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import {
   Image,
   Segment,
@@ -9,7 +10,8 @@ import {
 import moment from "moment";
 import styles from "./my-message.less";
 
-class MyMessage extends PureComponent {
+@immutableRenderDecorator
+class MyMessage extends Component {
   render() {
     const { message } = this.props;
     const popupContent = (

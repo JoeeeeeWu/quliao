@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import {
   Input,
@@ -9,7 +10,8 @@ import socketEmit from "../../common/socket-emit";
 import showAlert from "../../common/showAlert";
 import styles from "./send-input.less";
 
-class SendInput extends PureComponent {
+@immutableRenderDecorator
+class SendInput extends Component {
 
   state={
     content: "",

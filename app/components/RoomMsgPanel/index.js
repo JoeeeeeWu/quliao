@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import {
   Segment,
@@ -18,7 +19,8 @@ import { toggleCurrentRoomMsg, toggleRoomMsgForm } from "../../action-creators/l
 
 import styles from "./room-msg-panel.less";
 
-class RoomMsgPanel extends PureComponent {
+@immutableRenderDecorator
+class RoomMsgPanel extends Component {
 
   state = {
     showDismissModal: false,

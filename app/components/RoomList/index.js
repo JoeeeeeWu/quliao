@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import {
   Segment,
@@ -7,7 +8,8 @@ import Room from "../Room";
 
 import styles from "./room-list.less";
 
-class RoomList extends PureComponent {
+@immutableRenderDecorator
+class RoomList extends Component {
 
   render() {
     const { joinedRooms } = this.props;

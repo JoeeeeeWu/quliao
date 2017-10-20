@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import {
   Segment,
@@ -6,7 +7,8 @@ import {
 } from "semantic-ui-react";
 import { toggleSearchRoom } from "../../action-creators/layout";
 
-class JoinRoom extends PureComponent {
+@immutableRenderDecorator
+class JoinRoom extends Component {
   render() {
     const { toggleSearchRoom } = this.props;
     return (

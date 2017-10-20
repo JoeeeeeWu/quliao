@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import immutable from "immutable";
 import { Segment, Button } from "semantic-ui-react";
@@ -9,7 +10,8 @@ import MyMessage from "../MyMessage";
 import { addMessageList } from "../../action-creators/message";
 import styles from "./message-list.less";
 
-class MessageList extends PureComponent {
+@immutableRenderDecorator
+class MessageList extends Component {
 
   state = {
     isLoading: false,

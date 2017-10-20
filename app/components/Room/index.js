@@ -1,11 +1,13 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { Image } from "semantic-ui-react";
 import { connect } from "react-redux";
 import moment from "moment";
 import { switchRoom } from "../../action-creators/room";
 import styles from "./room.less";
 
-class Room extends PureComponent {
+@immutableRenderDecorator
+class Room extends Component {
 
   handleClick=() => {
     const { joinedRoom, switchRoom } = this.props;
@@ -20,12 +22,12 @@ class Room extends PureComponent {
     } = this.props;
     const lastMessage =
       messages.getIn([joinedRoom.get("_id"), -1, "content"]) ?
-      `${messages.getIn([joinedRoom.get("_id"), -1, "from", "name"])}：${messages.getIn([joinedRoom.get("_id"), -1, "content"])}` :
-      "暂无消息";
+        `${messages.getIn([joinedRoom.get("_id"), -1, "from", "name"])}：${messages.getIn([joinedRoom.get("_id"), -1, "content"])}` :
+        "暂无消息";
     const lastTime =
       messages.getIn([joinedRoom.get("_id"), -1, "createAt"]) ?
-      moment(messages.getIn([joinedRoom.get("_id"), -1, "createAt"])).format("MM-DD HH:mm") :
-      null;
+        moment(messages.getIn([joinedRoom.get("_id"), -1, "createAt"])).format("MM-DD HH:mm") :
+        null;
     const isCurrentRoom = joinedRoom.get("_id") === currentRoom.get("_id");
     return (
       <div className={`${styles.container} ${isCurrentRoom ? styles.active : null}`} onClick={this.handleClick} role="presentation">

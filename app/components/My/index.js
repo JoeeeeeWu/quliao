@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import {
   Segment,
@@ -11,7 +12,8 @@ import { toggleRoomList, toggleMyInfo } from "../../action-creators/layout";
 
 import styles from "./my.less";
 
-class My extends PureComponent {
+@immutableRenderDecorator
+class My extends Component {
   render() {
     const {
       user,
