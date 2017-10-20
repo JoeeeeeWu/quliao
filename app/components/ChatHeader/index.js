@@ -25,7 +25,7 @@ class ChatHeader extends PureComponent {
           <Icon name="sidebar" />
         </Button>
         <Header as="h3" className={styles.header}>
-          <Image shape="circular" src={currentRoom.get("avatar")} />
+          <Image shape="circular" src={currentRoom.get("avatar")} onClick={toggleCurrentRoomMsg} />
           {currentRoom.get("name")}
         </Header>
         <Button icon className={styles.moreBtn} color="teal" onClick={() => toggleCurrentRoomMsg()}>

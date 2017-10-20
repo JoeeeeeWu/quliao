@@ -1,22 +1,20 @@
 import React, { PureComponent } from "react";
-import { withRouter } from "react-router-dom";
 import {
   Button,
   Form,
-  Grid,
   Segment,
   Tab,
   Input,
   Label,
   Message,
+  Header,
+  Container,
 } from "semantic-ui-react";
 import axios from "axios";
 import styles from "./login.less";
-import socketEmit from "../../common/socket-emit";
 import { apiBaseUrl } from "../../config";
 
 class Login extends PureComponent {
-
   state={
     loginEmail: "",
     loginPwd: "",
@@ -151,7 +149,6 @@ class Login extends PureComponent {
   }
 
   render() {
-    console.log(this.props);
     const {
       loginEmail,
       loginPwd,
@@ -278,15 +275,12 @@ class Login extends PureComponent {
       { menuItem: "注册", render: () => signupCont },
     ];
     return (
-      <Grid
-        textAlign="center"
-        className={styles.container}
-        verticalAlign="middle"
-      >
-        <Grid.Column style={{ maxWidth: 450 }}>
+      <Container>
+        <div className={styles.wrap}>
+          <Header size='huge' color='teal' textAlign="center">趣聊</Header>
           <Tab menu={{ color: "teal", secondary: true, pointing: true }} panes={panes} />
-        </Grid.Column>
-      </Grid>
+        </div>
+      </Container>
     );
   }
 }
