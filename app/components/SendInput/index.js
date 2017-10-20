@@ -12,7 +12,6 @@ import styles from "./send-input.less";
 
 @immutableRenderDecorator
 class SendInput extends Component {
-
   state={
     content: "",
   }
@@ -25,6 +24,7 @@ class SendInput extends Component {
 
   handleSend=() => {
     const { content } = this.state;
+    if (content.trim() === "") return;
     const { currentRoom } = this.props;
     const roomId = currentRoom.get("_id");
     const token = localStorage.getItem("token");
