@@ -3,6 +3,7 @@ import { immutableRenderDecorator } from "react-immutable-render-mixin";
 import { connect } from "react-redux";
 import immutable from "immutable";
 import { Segment, Button } from "semantic-ui-react";
+import PubSub from "pubsub-js";
 import socketEmit from "../../common/socket-emit";
 import showAlert from "../../common/showAlert";
 import Message from "../Message";
@@ -12,9 +13,15 @@ import styles from "./message-list.less";
 
 @immutableRenderDecorator
 class MessageList extends Component {
-
   state = {
     isLoading: false,
+  }
+
+  componentDidMount = () => {
+    PubSub.subscribe("scrollToBottom", () => {
+      const messageList = document.getElementsByClassName("message_list")[0];
+      messageList.scrollTop = messageList.scrollHeight;
+    });
   }
 
   getMoreMessages = () => {
@@ -63,8 +70,14 @@ class MessageList extends Component {
     } = this.props;
     const currentMessages = messages.get(currentRoom.get("_id")) || immutable.List();
     return (
-      <Segment className={styles.container}>
-        <Button loading={isLoading} disabled={isLoading} basic fluid onClick={this.getMoreMessages}>点击加载历史消息</Button>
+      <Segment className={`message_list ${styles.container}`}>
+        <Button
+          loading={isLoading}
+          disabled={isLoading}
+          basic
+          fluid
+          onClick={this.getMoreMessages}
+        >点击加载历史消息</Button>
         {
           currentMessages.map((message) => {
             const userId = user.get("_id");

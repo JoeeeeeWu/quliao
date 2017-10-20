@@ -41,6 +41,7 @@
     "history": "^4.6.3",
     "immutable": "^3.8.1",
     "moment": "^2.18.1",
+    "pubsub-js": "^1.5.7",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-immutable-render-mixin": "^0.9.7",

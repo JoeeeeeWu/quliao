@@ -6,6 +6,7 @@ import {
   Segment,
 } from "semantic-ui-react";
 import immutable from "immutable";
+import PubSub from "pubsub-js";
 import socketEmit from "../../common/socket-emit";
 import showAlert from "../../common/showAlert";
 import styles from "./send-input.less";
@@ -34,6 +35,7 @@ class SendInput extends Component {
       token,
     })
       .then((res) => {
+        PubSub.publish("scrollToBottom");
         console.log("发送成功");
       })
       .catch((error) => {
