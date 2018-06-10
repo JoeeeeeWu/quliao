@@ -6,7 +6,7 @@ const config = Object.assign({}, baseConfig);
 
 config.devtool = "cheap-module-eval-source-map";
 config.entry = {
-  bundle: ["webpack-hot-middleware/client?reload=true", "./app/index.js"],
+  bundle: "./app/index.js",
 };
 config.output.chunkFilename = "js/[id].chunk.js";
 config.output.publicPath = "/";
