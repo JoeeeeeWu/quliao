@@ -1,5 +1,6 @@
 const path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HTMLPlugin = require('html-webpack-plugin');
 
 const extractLib = new ExtractTextPlugin({
   filename: "css/lib.css",
@@ -10,9 +11,14 @@ const extractStyle = new ExtractTextPlugin({
 });
 
 module.exports = {
+  entry: {
+    bundle: [
+      path.join(__dirname, '../app/index.js'),
+    ],
+  },
   output: {
-    path: path.join(__dirname, "dist"),
-    filename: "js/[name].js",
+    path: path.join(__dirname, '../dist'),
+    publicPath: '/public/',
   },
   resolve: {
     extensions: [".js", ".jsx"],
@@ -22,12 +28,11 @@ module.exports = {
       {
         test: /\.jsx?$/,
         loader: "babel-loader",
-        exclude: /node_modules/,
-        include: __dirname,
+        exclude: path.resolve(__dirname, '../node_modules'),
       },
       {
         test: /\.css$/,
-        include: /node_modules/,
+        include: path.resolve(__dirname, '../node_modules'),
         use: extractLib.extract({
           fallback: "style-loader",
           use: [
@@ -39,7 +44,7 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        exclude: /node_modules/,
+        exclude: path.resolve(__dirname, '../node_modules'),
         use: extractStyle.extract({
           fallback: "style-loader",
           use: [
@@ -141,5 +146,8 @@ module.exports = {
   plugins: [
     extractLib,
     extractStyle,
+    new HTMLPlugin({
+      template: path.join(__dirname, '../app/index.html'),
+    }),
   ],
 };
