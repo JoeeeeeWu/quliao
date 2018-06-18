@@ -6,6 +6,7 @@ import store from "./store";
 import Routes from "./routes";
 import listenSocket from "./sockets";
 import socket from "./io";
+import '../semantic/dist/semantic.min.css';
 
 // 实验
 import immutable from "immutable";

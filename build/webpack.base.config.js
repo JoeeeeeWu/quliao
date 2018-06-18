@@ -18,7 +18,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '../dist'),
-    publicPath: '/public/',
+    publicPath: '/',
   },
   resolve: {
     extensions: [".js", ".jsx"],
@@ -32,15 +32,21 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: path.resolve(__dirname, '../node_modules'),
-        use: extractLib.extract({
-          fallback: "style-loader",
-          use: [
-            {
-              loader: "css-loader",
-            },
-          ],
-        }),
+        include: [
+          path.resolve(__dirname, '../node_modules'),
+          path.resolve(__dirname, '../semantic')
+        ],
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              sourceMap: true,
+            }
+          },
+          {
+            loader: "css-loader",
+          },
+        ],
       },
       {
         test: /\.less$/,
