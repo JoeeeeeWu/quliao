@@ -43,14 +43,14 @@
     "immutable": "^3.8.2",
     "moment": "^2.22.2",
     "pubsub-js": "^1.6.0",
-    "react": "^15.6.2",
-    "react-dom": "^15.6.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "react-immutable-render-mixin": "^0.9.7",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "redux": "^3.7.2",
-    "semantic-ui": "^2.3.1",
-    "semantic-ui-react": "^0.81.1",
+    "semantic-ui": "^2.4.2",
+    "semantic-ui-react": "^0.88.1",
     "socket.io-client": "^2.1.1"
   }
 }
